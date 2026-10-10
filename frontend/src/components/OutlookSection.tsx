@@ -279,58 +279,15 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 5. Combined Single Horizontal Block: Recent Wall Street Adjustments + Merged Timeline */}
+      {/* 5. Reduced 30% Rectangular Card: Merged Timeline (First) then Recent Adjustments (Under it) */}
       {((recent_changes && recent_changes.length > 0) || (timeline && timeline.length > 0)) && (
-        <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-            {/* Left Side: Recent Wall Street Adjustments */}
-            {recent_changes && recent_changes.length > 0 && (
-              <div>
-                <div className="pb-4 mb-5 border-b border-black/10 flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
-                    Recent Wall Street Adjustments
-                  </span>
-                  <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-white text-black border border-black/10 shadow-2xs">
-                    {recent_changes.length} updates
-                  </span>
-                </div>
-
-                <div className="space-y-3">
-                  {recent_changes.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex items-center justify-between text-xs hover:border-black/20 transition-all"
-                    >
-                      <div>
-                        <div className="font-extrabold text-black text-sm sm:text-base">
-                          {item.firm}
-                        </div>
-                        <div className="text-zinc-600 text-xs nums mt-0.5 font-bold">
-                          {item.date}
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <span className="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-zinc-100 text-black border border-black/10 shadow-2xs">
-                          {item.action}
-                        </span>
-                        {item.target_to && (
-                          <div className="mt-1 font-black nums text-black text-sm sm:text-base">
-                            {item.target_to.display}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Right Side: Merged Event & News Timeline */}
+        <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[28px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+          <div className="space-y-6 sm:space-y-7">
+            {/* Top: Merged Event & News Timeline (comes first with news listed) */}
             {timeline && timeline.length > 0 && (
-              <div className="lg:border-l lg:border-black/10 lg:pl-10">
-                <div className="pb-4 mb-5 border-b border-black/10 flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
+              <div>
+                <div className="pb-3.5 mb-4 border-b border-black/10 flex flex-wrap items-center justify-between gap-2.5">
+                  <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
                     Merged Event & News Timeline
                   </span>
 
@@ -340,7 +297,7 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                       <button
                         key={kind}
                         onClick={() => setTimelineFilter(kind)}
-                        className={`px-3.5 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer ${
+                        className={`px-3 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer ${
                           timelineFilter === kind
                             ? 'bg-black text-white shadow-xs'
                             : 'bg-white text-zinc-800 border border-black/10 hover:border-black/30'
@@ -352,34 +309,86 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                   </div>
                 </div>
 
+                {/* News Listed One Under Another with balanced padding & placement */}
                 <div className="space-y-3">
                   {filteredTimeline.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs hover:border-black/20 transition-all"
+                      className="p-4 sm:p-4.5 rounded-2xl bg-white border border-black/[0.06] shadow-2xs hover:border-black/20 transition-all"
                     >
                       <div className="flex items-center justify-between text-xs text-zinc-600 mb-1.5">
-                        <span className="font-extrabold uppercase text-zinc-800">
+                        <span className="px-2 py-0.5 rounded-full bg-zinc-100 font-extrabold uppercase text-[10px] text-zinc-800 border border-black/5">
                           {item.kind}
                         </span>
-                        <span className="nums font-bold text-zinc-700">{item.relative}</span>
+                        <span className="nums font-bold text-zinc-600 text-xs">{item.relative}</span>
                       </div>
-                      <p className="text-sm font-bold text-black leading-snug">
+                      <p className="text-sm sm:text-[15px] font-bold text-black leading-snug">
                         {item.title}
                       </p>
-                      <div className="mt-2.5 text-xs text-zinc-600 flex items-center justify-between">
+                      <div className="mt-2.5 pt-2 border-t border-black/[0.04] text-xs text-zinc-600 flex items-center justify-between">
                         <span className="font-semibold text-zinc-700">{item.source}</span>
                         {item.url && (
                           <a
                             href={item.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-black hover:underline inline-flex items-center gap-0.5 font-extrabold"
+                            className="text-black hover:underline inline-flex items-center gap-0.5 font-extrabold text-xs"
                           >
-                            Source <ArrowUpRight className="w-3.5 h-3.5" />
+                            Source <ArrowUpRight className="w-3 h-3" />
                           </a>
                         )}
                       </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Divider between Timeline and Wall Street Adjustments */}
+            {timeline && timeline.length > 0 && recent_changes && recent_changes.length > 0 && (
+              <div className="border-t border-black/10" />
+            )}
+
+            {/* Under It: Recent Wall Street Adjustments */}
+            {recent_changes && recent_changes.length > 0 && (
+              <div>
+                <div className="pb-3.5 mb-4 border-b border-black/10 flex items-center justify-between">
+                  <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
+                    Recent Wall Street Adjustments
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-white text-black border border-black/10 shadow-2xs">
+                    {recent_changes.length} updates
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {recent_changes.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex flex-col justify-between hover:border-black/20 transition-all"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-zinc-100 text-black border border-black/10 shadow-2xs">
+                            {item.action}
+                          </span>
+                          <span className="text-zinc-600 text-xs nums font-bold">
+                            {item.date}
+                          </span>
+                        </div>
+                        <div className="font-extrabold text-black text-sm sm:text-[15px] mt-1">
+                          {item.firm}
+                        </div>
+                      </div>
+
+                      {item.target_to && (
+                        <div className="mt-3.5 pt-2.5 border-t border-black/[0.06] flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">New Target</span>
+                          <span className="font-black nums text-black text-base">
+                            {item.target_to.display}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

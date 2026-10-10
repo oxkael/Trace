@@ -38,15 +38,15 @@ export const KeyFactsGrid: React.FC<KeyFactsGridProps> = ({ facts }) => {
         return (
           <div
             key={fact.id}
-            className="p-5 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex flex-col justify-between"
+            className="p-5 rounded-[24px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:border-black/20 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400 mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider">
+              <div className="flex items-center justify-between text-zinc-500 mb-2.5">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
                   {fact.label}
                 </span>
-                <div className="p-1.5 rounded-xl bg-zinc-200/60 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-                  <Icon className="w-4 h-4" />
+                <div className="p-1.5 rounded-xl bg-zinc-100 text-zinc-700">
+                  <Icon className="w-3.5 h-3.5" />
                 </div>
               </div>
 
@@ -57,7 +57,7 @@ export const KeyFactsGrid: React.FC<KeyFactsGridProps> = ({ facts }) => {
                   </span>
                 ) : (
                   <ProvenanceTooltip value={fact.value} label={fact.label}>
-                    <span className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white nums">
+                    <span className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 nums">
                       {fact.value.display}
                     </span>
                   </ProvenanceTooltip>
@@ -66,11 +66,11 @@ export const KeyFactsGrid: React.FC<KeyFactsGridProps> = ({ facts }) => {
             </div>
 
             {/* Bottom provenance metadata pill */}
-            <div className="mt-4 pt-3 border-t border-zinc-200/50 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-400">
+            <div className="mt-4 pt-3 border-t border-black/[0.05] flex items-center justify-between text-[11px] text-zinc-400">
               <span className="font-mono truncate max-w-[120px]" title={fact.value.source}>
                 {fact.value.source}
               </span>
-              <span className="capitalize px-2 py-0.5 rounded-full bg-zinc-200/70 dark:bg-zinc-800 font-medium text-[10px] text-zinc-600 dark:text-zinc-300">
+              <span className="capitalize px-2 py-0.5 rounded-full bg-zinc-100 font-medium text-[10px] text-zinc-600 border border-black/[0.04]">
                 {fact.value.freshness}
               </span>
             </div>

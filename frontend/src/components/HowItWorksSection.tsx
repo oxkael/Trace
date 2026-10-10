@@ -4,81 +4,90 @@ import { Eye, Activity, Sparkles } from 'lucide-react';
 export const HowItWorksSection: React.FC = () => {
   return (
     <section id="how-it-works" className="py-20 sm:py-28 max-w-[1040px] mx-auto px-4">
-      {/* Title Block */}
-      <div className="text-center sm:text-left">
-        <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-          Architecture & Methodology
-        </span>
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-zinc-950 dark:text-white mt-4">
-          How Trace assesses market conditions.
+      {/* Title Block matching Screenshot 2 */}
+      <div>
+        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-950">
+          How it works.
         </h2>
-        <p className="mt-3 text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
-          No invented data, no price predictions, and no black boxes. Every card is assembled from verified endpoints, tagged with freshness, and phrased for clarity.
+        <p className="mt-3 text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed">
+          Set your intent once, then let Trace assess the conditions — one read to verify sessions, another to measure history.
         </p>
       </div>
 
-      {/* 3 Numbered Cards matching nor.ma */}
+      {/* 3 Numbered Cards exactly matching Screenshot 2 */}
       <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Step 1 */}
-        <div className="group flex flex-col justify-between p-8 rounded-[36px] border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm hover:border-zinc-400 dark:hover:border-zinc-700 transition-all">
-          <div>
-            <div className="flex items-center justify-between mb-6">
-              <span className="nums flex size-8 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 text-xs font-bold text-zinc-800 dark:text-zinc-200">
-                1
-              </span>
-              <Eye className="w-5 h-5 text-zinc-400" />
-            </div>
-            <h3 className="text-lg font-bold text-zinc-950 dark:text-white">
-              Observe Ground Truth
+        <div className="group flex flex-col justify-between overflow-hidden rounded-[32px] sm:rounded-[36px] border border-black/[0.08] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.02)] hover:border-black/20 transition-all">
+          <div className="p-7 sm:p-8">
+            <span className="nums flex size-8 items-center justify-center rounded-full border border-black/15 text-xs font-semibold text-zinc-800 bg-white">
+              1
+            </span>
+            <h3 className="mt-5 text-xl font-bold text-zinc-950">
+              Observe ground truth
             </h3>
-            <p className="mt-2.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Trace monitors the real-time NYSE/NASDAQ market session. Outside regular US trading hours, reference prices are labeled as <strong>last close</strong>, never misrepresented as live equity trades.
+            <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
+              Trace monitors the real-time NYSE/NASDAQ session. Outside regular hours, reference prices are labeled as last close, never masked.
             </p>
           </div>
-          <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-400 font-mono">
-            NYSE / NASDAQ / Bitget Reality
+
+          <div className="relative min-h-[200px] w-full bg-zinc-50 border-t border-black/[0.06] p-6 flex flex-col justify-end">
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex items-center gap-3">
+              <Eye className="w-4 h-4 text-zinc-500 shrink-0" />
+              <div className="text-xs">
+                <div className="font-semibold text-zinc-900">NYSE / NASDAQ Regular Hours</div>
+                <div className="text-[11px] text-zinc-400">Official exchange calendars</div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Step 2 */}
-        <div className="group flex flex-col justify-between p-8 rounded-[36px] border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm hover:border-zinc-400 dark:hover:border-zinc-700 transition-all">
-          <div>
-            <div className="flex items-center justify-between mb-6">
-              <span className="nums flex size-8 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 text-xs font-bold text-zinc-800 dark:text-zinc-200">
-                2
-              </span>
-              <Activity className="w-5 h-5 text-zinc-400" />
-            </div>
-            <h3 className="text-lg font-bold text-zinc-950 dark:text-white">
-              Measure Divergence
+        <div className="group flex flex-col justify-between overflow-hidden rounded-[32px] sm:rounded-[36px] border border-black/[0.08] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.02)] hover:border-black/20 transition-all">
+          <div className="p-7 sm:p-8">
+            <span className="nums flex size-8 items-center justify-center rounded-full border border-black/15 text-xs font-semibold text-zinc-800 bg-white">
+              2
+            </span>
+            <h3 className="mt-5 text-xl font-bold text-zinc-950">
+              Measure divergence
             </h3>
-            <p className="mt-2.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Calculates the price gap between the token and underlying, alongside the <strong>Activity Ratio</strong>—comparing current turnover with historical medians for the same session type.
+            <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
+              Calculates the price gap vs the underlying, and computes the Activity Ratio against historical turnover medians for that session.
             </p>
           </div>
-          <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-400 font-mono">
-            Divergence & Turnover Medians
+
+          <div className="relative min-h-[200px] w-full bg-zinc-50 border-t border-black/[0.06] p-6 flex flex-col justify-end">
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex items-center gap-3">
+              <Activity className="w-4 h-4 text-zinc-500 shrink-0" />
+              <div className="text-xs">
+                <div className="font-semibold text-zinc-900">Gap & Turnover Medians</div>
+                <div className="text-[11px] text-zinc-400">Ratio vs typical session volume</div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Step 3 */}
-        <div className="group flex flex-col justify-between p-8 rounded-[36px] border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm hover:border-zinc-400 dark:hover:border-zinc-700 transition-all">
-          <div>
-            <div className="flex items-center justify-between mb-6">
-              <span className="nums flex size-8 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 text-xs font-bold text-zinc-800 dark:text-zinc-200">
-                3
-              </span>
-              <Sparkles className="w-5 h-5 text-zinc-400" />
-            </div>
-            <h3 className="text-lg font-bold text-zinc-950 dark:text-white">
-              Contextualize & Ground
+        <div className="group flex flex-col justify-between overflow-hidden rounded-[32px] sm:rounded-[36px] border border-black/[0.08] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.02)] hover:border-black/20 transition-all">
+          <div className="p-7 sm:p-8">
+            <span className="nums flex size-8 items-center justify-center rounded-full border border-black/15 text-xs font-semibold text-zinc-800 bg-white">
+              3
+            </span>
+            <h3 className="mt-5 text-xl font-bold text-zinc-950">
+              Contextualize context
             </h3>
-            <p className="mt-2.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Fetches historical event look-backs, analyst consensus, and corporate filings. Explanations are strictly fact-validated before rendering. <strong>The user always decides.</strong>
+            <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
+              Reviews what happened around past similar events and consolidates analyst targets. Explanations are strictly fact-validated.
             </p>
           </div>
-          <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-400 font-mono">
-            Validated Synthesis • No Advice
+
+          <div className="relative min-h-[200px] w-full bg-zinc-50 border-t border-black/[0.06] p-6 flex flex-col justify-end">
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex items-center gap-3">
+              <Sparkles className="w-4 h-4 text-zinc-500 shrink-0" />
+              <div className="text-xs">
+                <div className="font-semibold text-zinc-900">Verified Synthesis</div>
+                <div className="text-[11px] text-zinc-400">Strictly fact-grounded readout</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

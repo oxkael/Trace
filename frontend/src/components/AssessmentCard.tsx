@@ -23,7 +23,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
   const [activeTab, setActiveTab] = useState<'all' | 'outlook' | 'history'>('all');
 
   return (
-    <div className="w-full max-w-[1040px] mx-auto px-4 py-8 space-y-8 animate-in fade-in duration-300">
+    <div className="w-full max-w-[1040px] mx-auto px-4 py-8 space-y-6 animate-in fade-in duration-300">
       {/* 1. Verdict Banner */}
       <VerdictBanner verdict={data.verdict} />
 
@@ -33,15 +33,15 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
       {/* 3. Event Catalyst Banner if active */}
       <EventBanner banner={data.events.banner} upcoming={data.events.upcoming} />
 
-      {/* 4. Section Selector Tabs (nor.ma pill style) */}
-      <div className="flex items-center gap-2 pb-2 border-b border-zinc-200/60 dark:border-zinc-800">
+      {/* 4. Section Selector Tabs (matching nor.ma Screenshot 3 pill switcher) */}
+      <div className="flex items-center gap-2 pt-2 pb-1 overflow-x-auto">
         <button
           type="button"
           onClick={() => setActiveTab('all')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
             activeTab === 'all'
-              ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-sm'
-              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+              ? 'bg-zinc-950 text-white shadow-xs'
+              : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
@@ -51,10 +51,10 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('outlook')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
             activeTab === 'outlook'
-              ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-sm'
-              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+              ? 'bg-zinc-950 text-white shadow-xs'
+              : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
           }`}
         >
           <TrendingUp className="w-3.5 h-3.5" />
@@ -64,10 +64,10 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
             activeTab === 'history'
-              ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-sm'
-              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+              ? 'bg-zinc-950 text-white shadow-xs'
+              : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
           }`}
         >
           <History className="w-3.5 h-3.5" />
@@ -77,7 +77,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
 
       {/* 5. Deep Dive Sections */}
       {activeTab === 'all' && (
-        <div className="space-y-8">
+        <div className="space-y-6">
           <LookbackTable history={data.history} />
           <OutlookSection outlook={data.outlook} />
         </div>

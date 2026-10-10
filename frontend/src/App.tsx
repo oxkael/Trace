@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { TrustProofStrip } from './components/TrustProofStrip';
 import { StreamingProgress } from './components/StreamingProgress';
 import { AssessmentCard } from './components/AssessmentCard';
 import { ScoreboardView } from './components/ScoreboardView';
@@ -25,8 +26,8 @@ export const App: React.FC = () => {
     setSteps([]);
     setCurrentView('assistant');
 
-    // Smooth scroll down to progress tracker / assessment area
-    window.scrollTo({ top: 580, behavior: 'smooth' });
+    // Smooth scroll down to assessment area
+    window.scrollTo({ top: 750, behavior: 'smooth' });
 
     await askAssistant(query, {
       onStep: (step) => {
@@ -85,17 +86,20 @@ export const App: React.FC = () => {
       <main className="flex-1">
         {currentView === 'assistant' && (
           <>
-            {/* nor.ma-style Hero Stage */}
+            {/* nor.ma-style Dark Hero Stage */}
             <Hero
               onSearch={handleSearch}
               onSelectTicker={handleSelectTicker}
               isLoading={isStreaming}
             />
 
+            {/* nor.ma Screenshot 1: Social Proof & Feeds Strip */}
+            <TrustProofStrip />
+
             {/* Real-time Streaming Progress Steps */}
             <StreamingProgress steps={steps} isStreaming={isStreaming} />
 
-            {/* Assessment Card (Condition Verdict, Facts, History, Outlook) */}
+            {/* Assessment Card (Crisp White nor.ma Cards) */}
             {assessment && (
               <AssessmentCard
                 data={assessment}
@@ -104,10 +108,10 @@ export const App: React.FC = () => {
               />
             )}
 
-            {/* Numbered 3-Step Methodology Cards */}
+            {/* nor.ma Screenshot 2: Numbered 3-Step Methodology Cards */}
             <HowItWorksSection />
 
-            {/* FAQ & Four Firm Lines Accordion */}
+            {/* FAQ Accordion */}
             <FaqSection />
           </>
         )}

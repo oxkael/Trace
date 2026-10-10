@@ -25,7 +25,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({ options, onActionClick, is
   };
 
   return (
-    <div className="p-4 sm:p-5 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-3">
+    <div className="p-4 sm:p-5 rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-wrap items-center justify-between gap-3">
       <div className="text-xs text-zinc-500 font-medium">
         Available next steps:
       </div>
@@ -43,8 +43,8 @@ export const ActionBar: React.FC<ActionBarProps> = ({ options, onActionClick, is
                 onClick={() => onActionClick(opt)}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
                   isPrimary
-                    ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-sm'
-                    : 'bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300'
+                    ? 'bg-zinc-950 text-white hover:bg-zinc-800 shadow-xs'
+                    : 'bg-white text-zinc-800 border border-black/10 hover:border-black/30'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

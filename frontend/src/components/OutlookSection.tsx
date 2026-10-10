@@ -31,7 +31,7 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10 sm:space-y-14 lg:space-y-16">
       {/* 1. Full-Width Extending Rectangular Card: Wall Street Outlook & News Synthesis */}
       <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
         <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
@@ -162,69 +162,69 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 3. Arguments: Supporters vs Skeptics */}
+      {/* 3. Combined Single Card: Bull Arguments & Skeptic Arguments (No middle gap, filled with gray) */}
       {availability.arguments !== 'unavailable' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Supporters */}
-          <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-            <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 pb-4 mb-4 border-b border-black/[0.08] text-zinc-900">
-                  <ThumbsUp className="w-4 h-4 text-emerald-700" />
-                  <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
-                    Key Bull Arguments
-                  </h4>
-                </div>
+        <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+            {/* Left Column: Key Bull Arguments */}
+            <div>
+              <div className="flex items-center gap-2 pb-4 mb-5 border-b border-black/10 text-zinc-900">
+                <ThumbsUp className="w-4 h-4 text-emerald-700" />
+                <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
+                  Key Bull Arguments
+                </h4>
+              </div>
 
-                <div className="space-y-3.5">
-                  {args.supporters.map((arg, idx) => (
-                    <div key={idx} className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                      <p className="text-[15px] sm:text-base text-zinc-950 leading-relaxed font-medium">
-                        "{arg.text}"
-                      </p>
-                      <div className="mt-3.5 pt-2.5 border-t border-black/[0.06] flex items-center justify-between text-xs text-zinc-600">
-                        <span className="nums font-extrabold text-black">
-                          Backed by {arg.source_count} sources
-                        </span>
-                        <span className="truncate max-w-[140px] text-zinc-500 font-semibold" title={arg.sources[0]?.title}>
-                          {arg.sources[0]?.source}
-                        </span>
-                      </div>
+              <div className="space-y-3.5">
+                {args.supporters.map((arg, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs hover:border-black/20 transition-all"
+                  >
+                    <p className="text-[15px] sm:text-base text-zinc-950 leading-relaxed font-medium">
+                      "{arg.text}"
+                    </p>
+                    <div className="mt-3.5 pt-2.5 border-t border-black/[0.06] flex items-center justify-between text-xs text-zinc-600">
+                      <span className="nums font-extrabold text-black">
+                        Backed by {arg.source_count} sources
+                      </span>
+                      <span className="truncate max-w-[140px] text-zinc-500 font-semibold" title={arg.sources[0]?.title}>
+                        {arg.sources[0]?.source}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* Skeptics */}
-          <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-            <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 pb-4 mb-4 border-b border-black/[0.08] text-zinc-900">
-                  <ThumbsDown className="w-4 h-4 text-amber-700" />
-                  <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
-                    Key Skeptic Arguments
-                  </h4>
-                </div>
+            {/* Right Column: Key Skeptic Arguments (Divided cleanly by border, filled with gray background) */}
+            <div className="lg:border-l lg:border-black/10 lg:pl-10">
+              <div className="flex items-center gap-2 pb-4 mb-5 border-b border-black/10 text-zinc-900">
+                <ThumbsDown className="w-4 h-4 text-amber-700" />
+                <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-800">
+                  Key Skeptic Arguments
+                </h4>
+              </div>
 
-                <div className="space-y-3.5">
-                  {args.skeptics.map((arg, idx) => (
-                    <div key={idx} className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                      <p className="text-[15px] sm:text-base text-zinc-950 leading-relaxed font-medium">
-                        "{arg.text}"
-                      </p>
-                      <div className="mt-3.5 pt-2.5 border-t border-black/[0.06] flex items-center justify-between text-xs text-zinc-600">
-                        <span className="nums font-extrabold text-black">
-                          Backed by {arg.source_count} sources
-                        </span>
-                        <span className="truncate max-w-[140px] text-zinc-500 font-semibold" title={arg.sources[0]?.title}>
-                          {arg.sources[0]?.source}
-                        </span>
-                      </div>
+              <div className="space-y-3.5">
+                {args.skeptics.map((arg, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs hover:border-black/20 transition-all"
+                  >
+                    <p className="text-[15px] sm:text-base text-zinc-950 leading-relaxed font-medium">
+                      "{arg.text}"
+                    </p>
+                    <div className="mt-3.5 pt-2.5 border-t border-black/[0.06] flex items-center justify-between text-xs text-zinc-600">
+                      <span className="nums font-extrabold text-black">
+                        Backed by {arg.source_count} sources
+                      </span>
+                      <span className="truncate max-w-[140px] text-zinc-500 font-semibold" title={arg.sources[0]?.title}>
+                        {arg.sources[0]?.source}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

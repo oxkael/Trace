@@ -23,7 +23,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
   const [activeTab, setActiveTab] = useState<'all' | 'outlook' | 'history'>('all');
 
   return (
-    <div className="w-full max-w-[1040px] mx-auto px-4 py-8 space-y-6 animate-in fade-in duration-300">
+    <div className="w-full max-w-[1040px] mx-auto px-4 py-12 sm:py-16 space-y-10 sm:space-y-14 lg:space-y-16 animate-in fade-in duration-300">
       {/* 1. Verdict Banner */}
       <VerdictBanner verdict={data.verdict} />
 
@@ -33,12 +33,12 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
       {/* 3. Event Catalyst Banner if active */}
       <EventBanner banner={data.events.banner} upcoming={data.events.upcoming} />
 
-      {/* 4. Section Selector Tabs (matching nor.ma Screenshot 3 pill switcher) */}
-      <div className="flex items-center gap-2 pt-2 pb-1 overflow-x-auto">
+      {/* 4. Section Selector Tabs with generous padding */}
+      <div className="flex items-center gap-2.5 pt-4 pb-2 overflow-x-auto">
         <button
           type="button"
           onClick={() => setActiveTab('all')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer shadow-2xs ${
             activeTab === 'all'
               ? 'bg-zinc-950 text-white shadow-xs'
               : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
@@ -51,7 +51,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('outlook')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer shadow-2xs ${
             activeTab === 'outlook'
               ? 'bg-zinc-950 text-white shadow-xs'
               : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
@@ -64,7 +64,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer shadow-2xs ${
             activeTab === 'history'
               ? 'bg-zinc-950 text-white shadow-xs'
               : 'bg-white text-zinc-700 border border-black/10 hover:border-black/30'
@@ -75,9 +75,9 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         </button>
       </div>
 
-      {/* 5. Deep Dive Sections */}
+      {/* 5. Deep Dive Sections with generous spacing */}
       {activeTab === 'all' && (
-        <div className="space-y-6">
+        <div className="space-y-10 sm:space-y-14 lg:space-y-16">
           <LookbackTable history={data.history} />
           <OutlookSection outlook={data.outlook} />
         </div>

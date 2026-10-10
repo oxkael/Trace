@@ -32,43 +32,41 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
 
   return (
     <div className="space-y-6">
-      {/* 1. Brief & Consensus Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6">
-        {/* The Outlook Brief Block */}
-        <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm flex flex-col justify-between">
-          <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs flex flex-col justify-between h-full">
-            <div>
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
-                  Wall Street Outlook & News Synthesis
-                </span>
-                <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-zinc-950 text-white shadow-xs tracking-wide">
-                  Interpretation
-                </span>
-              </div>
+      {/* 1. Full-Width Extending Rectangular Card: Wall Street Outlook & News Synthesis */}
+      <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
+          <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
+              Wall Street Outlook & News Synthesis
+            </span>
+            <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-zinc-950 text-white shadow-xs tracking-wide">
+              Interpretation
+            </span>
+          </div>
 
-              <p className="text-base sm:text-[18px] text-zinc-950 leading-relaxed sm:leading-[1.7] font-medium antialiased">
-                {brief.text}
-              </p>
-            </div>
+          <p className="text-base sm:text-[18px] text-zinc-950 leading-relaxed sm:leading-[1.7] font-medium antialiased">
+            {brief.text}
+          </p>
 
-            <div className="mt-6 pt-4 border-t border-black/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-zinc-700 font-medium">
-              <span>
-                Basis: <strong className="nums text-black font-extrabold">{brief.basis.analyst_updates} analyst updates</strong>, <strong className="nums text-black font-extrabold">{brief.basis.articles} articles</strong> ({brief.basis.window_days}d window)
+          <div className="mt-6 pt-4 border-t border-black/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-zinc-700 font-medium">
+            <span>
+              Basis: <strong className="nums text-black font-extrabold">{brief.basis.analyst_updates} analyst updates</strong>, <strong className="nums text-black font-extrabold">{brief.basis.articles} articles</strong> ({brief.basis.window_days}d window)
+            </span>
+            {brief.validated && (
+              <span className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-bold border border-emerald-300 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700" /> Fact Validated
               </span>
-              {brief.validated && (
-                <span className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-bold border border-emerald-300 shadow-2xs">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-700" /> Fact Validated
-                </span>
-              )}
-            </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Analyst Consensus Breakdown */}
-        {availability.consensus !== 'unavailable' && (
-          <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm flex flex-col justify-between">
-            <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs flex flex-col justify-between h-full">
+      {/* 2. Combined Card: Analyst Consensus (comes first) + 12-Month Published Price Targets */}
+      {(availability.consensus !== 'unavailable' || availability.targets !== 'unavailable') && (
+        <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+          <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs space-y-7">
+            {/* Part A: Analyst Consensus (comes first) */}
+            {availability.consensus !== 'unavailable' && (
               <div>
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
                   <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
@@ -87,81 +85,79 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                 </div>
 
                 {/* Legend - High-Contrast Stat Cards */}
-                <div className="grid grid-cols-3 gap-2.5 text-center mt-5">
-                  <div className="p-3.5 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
+                <div className="grid grid-cols-3 gap-3 text-center mt-5">
+                  <div className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
                     <div className="text-xs font-extrabold text-zinc-600 uppercase tracking-wider">Buy</div>
-                    <div className="text-2xl font-black text-black nums mt-0.5">{consensus.buy}</div>
+                    <div className="text-2xl sm:text-3xl font-black text-black nums mt-0.5">{consensus.buy}</div>
                     <div className="text-xs text-zinc-600 nums font-bold">{buyPct.toFixed(0)}%</div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
+                  <div className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
                     <div className="text-xs font-extrabold text-zinc-600 uppercase tracking-wider">Hold</div>
-                    <div className="text-2xl font-black text-black nums mt-0.5">{consensus.hold}</div>
+                    <div className="text-2xl sm:text-3xl font-black text-black nums mt-0.5">{consensus.hold}</div>
                     <div className="text-xs text-zinc-600 nums font-bold">{holdPct.toFixed(0)}%</div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
+                  <div className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.08] shadow-xs">
                     <div className="text-xs font-extrabold text-zinc-600 uppercase tracking-wider">Sell</div>
-                    <div className="text-2xl font-black text-black nums mt-0.5">{consensus.sell}</div>
+                    <div className="text-2xl sm:text-3xl font-black text-black nums mt-0.5">{consensus.sell}</div>
                     <div className="text-xs text-zinc-600 nums font-bold">{sellPct.toFixed(0)}%</div>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-5 pt-4 border-t border-black/[0.08] flex items-center justify-between text-xs text-zinc-600 font-semibold">
-                <span>Source: <strong className="text-black font-bold">{consensus.source}</strong></span>
-                <span className="capitalize px-2 py-0.5 rounded-full bg-zinc-100 font-bold">{consensus.freshness}</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 2. Price Targets vs Today */}
-      {availability.targets !== 'unavailable' && (
-        <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-          <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
-              <div className="flex items-center gap-2">
-                <Target className="w-4 h-4 text-zinc-700" />
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
-                  12-Month Published Price Targets vs Today
-                </span>
-              </div>
-              <span className="px-3.5 py-1 rounded-full text-xs font-extrabold bg-zinc-100 text-black border border-black/10 shadow-2xs nums">
-                {targets.analyst_count} analysts
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-              <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">Low Target</span>
-                <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
-                  {targets.low.display}
+                <div className="mt-4 pt-3 flex items-center justify-between text-xs text-zinc-600 font-semibold">
+                  <span>Source: <strong className="text-black font-bold">{consensus.source}</strong></span>
+                  <span className="capitalize px-2.5 py-0.5 rounded-full bg-zinc-100 font-bold border border-black/5">{consensus.freshness}</span>
                 </div>
               </div>
+            )}
 
-              <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">Consensus Mean</span>
-                <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
-                  {targets.mean.display}
+            {/* Part B: 12-Month Published Price Targets (follows cleanly underneath) */}
+            {availability.targets !== 'unavailable' && (
+              <div className={availability.consensus !== 'unavailable' ? 'pt-7 border-t border-black/[0.08]' : ''}>
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
+                  <div className="flex items-center gap-2">
+                    <Target className="w-4 h-4 text-zinc-700" />
+                    <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
+                      12-Month Published Price Targets vs Today
+                    </span>
+                  </div>
+                  <span className="px-3.5 py-1 rounded-full text-xs font-extrabold bg-zinc-100 text-black border border-black/10 shadow-2xs nums">
+                    {targets.analyst_count} analysts
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                  <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
+                    <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">Low Target</span>
+                    <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
+                      {targets.low.display}
+                    </div>
+                  </div>
+
+                  <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
+                    <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">Consensus Mean</span>
+                    <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
+                      {targets.mean.display}
+                    </div>
+                  </div>
+
+                  <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
+                    <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">High Target</span>
+                    <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
+                      {targets.high.display}
+                    </div>
+                  </div>
+
+                  <div className="p-4.5 rounded-2xl bg-zinc-950 text-white border border-zinc-900 shadow-xs">
+                    <span className="text-xs text-zinc-400 uppercase tracking-wider font-extrabold">Current Price</span>
+                    <div className="text-2xl sm:text-3xl font-black text-white mt-1 nums">
+                      {targets.current_price.display}
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="p-4.5 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                <span className="text-xs text-zinc-600 uppercase tracking-wider font-extrabold">High Target</span>
-                <div className="text-2xl sm:text-3xl font-black text-black mt-1 nums">
-                  {targets.high.display}
-                </div>
-              </div>
-
-              <div className="p-4.5 rounded-2xl bg-zinc-950 text-white border border-zinc-900 shadow-xs">
-                <span className="text-xs text-zinc-400 uppercase tracking-wider font-extrabold">Current Price</span>
-                <div className="text-2xl sm:text-3xl font-black text-white mt-1 nums">
-                  {targets.current_price.display}
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       )}
@@ -283,22 +279,28 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 5. Recent Analyst Changes & Merged Timeline */}
-      <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6">
-        {/* Recent Analyst Adjustments */}
-        {recent_changes && recent_changes.length > 0 && (
-          <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-            <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs h-full flex flex-col justify-between">
+      {/* 5. Combined Single Horizontal Block: Recent Wall Street Adjustments + Merged Timeline */}
+      {((recent_changes && recent_changes.length > 0) || (timeline && timeline.length > 0)) && (
+        <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+            {/* Left Side: Recent Wall Street Adjustments */}
+            {recent_changes && recent_changes.length > 0 && (
               <div>
-                <div className="pb-4 mb-4 border-b border-black/[0.08]">
+                <div className="pb-4 mb-5 border-b border-black/10 flex items-center justify-between">
                   <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
                     Recent Wall Street Adjustments
+                  </span>
+                  <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-white text-black border border-black/10 shadow-2xs">
+                    {recent_changes.length} updates
                   </span>
                 </div>
 
                 <div className="space-y-3">
                   {recent_changes.map((item, idx) => (
-                    <div key={idx} className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs flex items-center justify-between text-xs">
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs flex items-center justify-between text-xs hover:border-black/20 transition-all"
+                    >
                       <div>
                         <div className="font-extrabold text-black text-sm sm:text-base">
                           {item.firm}
@@ -309,11 +311,11 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                       </div>
 
                       <div className="text-right">
-                        <span className="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-white text-black border border-black/10 shadow-2xs">
+                        <span className="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-zinc-100 text-black border border-black/10 shadow-2xs">
                           {item.action}
                         </span>
                         {item.target_to && (
-                          <div className="mt-1 font-black nums text-black text-sm">
+                          <div className="mt-1 font-black nums text-black text-sm sm:text-base">
                             {item.target_to.display}
                           </div>
                         )}
@@ -322,16 +324,12 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Merged Timeline Feed */}
-        {timeline && timeline.length > 0 && (
-          <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
-            <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
+            {/* Right Side: Merged Event & News Timeline */}
+            {timeline && timeline.length > 0 && (
+              <div className="lg:border-l lg:border-black/10 lg:pl-10">
+                <div className="pb-4 mb-5 border-b border-black/10 flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
                     Merged Event & News Timeline
                   </span>
@@ -345,7 +343,7 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                         className={`px-3.5 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer ${
                           timelineFilter === kind
                             ? 'bg-black text-white shadow-xs'
-                            : 'bg-zinc-100 text-zinc-800 border border-black/10 hover:border-black/30'
+                            : 'bg-white text-zinc-800 border border-black/10 hover:border-black/30'
                         }`}
                       >
                         {kind}
@@ -356,8 +354,11 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
 
                 <div className="space-y-3">
                   {filteredTimeline.map((item) => (
-                    <div key={item.id} className="p-4 rounded-2xl bg-zinc-50 border border-black/[0.07] shadow-xs">
-                      <div className="flex items-center justify-between text-xs text-zinc-600 mb-1">
+                    <div
+                      key={item.id}
+                      className="p-4 rounded-2xl bg-white border border-black/[0.06] shadow-2xs hover:border-black/20 transition-all"
+                    >
+                      <div className="flex items-center justify-between text-xs text-zinc-600 mb-1.5">
                         <span className="font-extrabold uppercase text-zinc-800">
                           {item.kind}
                         </span>
@@ -383,10 +384,10 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                   ))}
                 </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

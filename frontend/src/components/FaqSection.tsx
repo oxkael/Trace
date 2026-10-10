@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
 export const FaqSection: React.FC = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
@@ -28,41 +28,47 @@ export const FaqSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 max-w-[1040px] mx-auto px-4 border-t border-zinc-200/60 dark:border-zinc-800">
-      <div className="text-center sm:text-left mb-10">
-        <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-          Core Principles & FAQ
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950 dark:text-white mt-3">
-          Frequently Answered Questions
-        </h2>
-      </div>
+    <section className="py-16 sm:py-20 max-w-[1040px] mx-auto px-4">
+      <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
+          <div className="flex items-center gap-2 mb-2">
+            <HelpCircle className="w-4 h-4 text-zinc-500" />
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+              Methodology & FAQ
+            </span>
+          </div>
 
-      <div className="divide-y divide-zinc-200/70 dark:divide-zinc-800">
-        {faqs.map((faq, idx) => {
-          const isOpen = openIdx === idx;
-          return (
-            <div key={idx} className="py-5">
-              <button
-                type="button"
-                onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between text-left font-bold text-base sm:text-lg text-zinc-950 dark:text-white group cursor-pointer"
-              >
-                <span>{faq.q}</span>
-                <ChevronDown
-                  className={`w-5 h-5 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-200 ${
-                    isOpen ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {isOpen && (
-                <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed pr-8 animate-in fade-in duration-150">
-                  {faq.a}
-                </p>
-              )}
-            </div>
-          );
-        })}
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 mb-6">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="divide-y divide-black/[0.06]">
+            {faqs.map((faq, idx) => {
+              const isOpen = openIdx === idx;
+              return (
+                <div key={idx} className="py-4.5 first:pt-0 last:pb-0">
+                  <button
+                    type="button"
+                    onClick={() => setOpenIdx(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between text-left font-bold text-base sm:text-lg text-zinc-950 group cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-zinc-400 group-hover:text-zinc-900 transition-transform duration-200 shrink-0 ml-4 ${
+                        isOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <p className="mt-3 text-sm sm:text-base text-zinc-600 leading-relaxed pr-8 animate-in fade-in duration-150">
+                      {faq.a}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

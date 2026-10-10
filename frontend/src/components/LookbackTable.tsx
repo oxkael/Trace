@@ -56,42 +56,42 @@ export const LookbackTable: React.FC<LookbackTableProps> = ({ history }) => {
         {/* Pure White Table Island Card */}
         <div className="mt-6 overflow-hidden rounded-[24px] bg-white border border-black/[0.05] p-3 sm:p-4 shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse">
               <thead>
-                <tr className="border-b border-black/[0.06] text-zinc-400 font-semibold uppercase text-[10px] tracking-wider">
-                  <th className="py-3 pr-4">Event</th>
-                  <th className="py-3 px-3">Date</th>
-                  <th className="py-3 px-3">Timing</th>
-                  <th className="py-3 px-3 text-right">Stock Move</th>
-                  <th className="py-3 px-3 text-right">Token Move</th>
-                  <th className="py-3 px-3 text-right">Turnover Δ</th>
-                  <th className="py-3 pl-3 text-right">Origin</th>
+                <tr className="border-b border-black/[0.08] text-zinc-600 font-extrabold uppercase text-xs tracking-wider">
+                  <th className="py-3.5 pr-4">Event</th>
+                  <th className="py-3.5 px-3">Date</th>
+                  <th className="py-3.5 px-3">Timing</th>
+                  <th className="py-3.5 px-3 text-right">Stock Move</th>
+                  <th className="py-3.5 px-3 text-right">Token Move</th>
+                  <th className="py-3.5 px-3 text-right">Turnover Δ</th>
+                  <th className="py-3.5 pl-3 text-right">Origin</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/[0.04]">
+              <tbody className="divide-y divide-black/[0.05]">
                 {history.map((row, idx) => (
                   <tr key={idx} className="hover:bg-zinc-50/80 transition-colors">
-                    <td className="py-3.5 pr-4 font-bold text-zinc-950 text-sm">
+                    <td className="py-4 pr-4 font-extrabold text-black text-sm sm:text-base">
                       {row.event_title}
                     </td>
-                    <td className="py-3.5 px-3 text-zinc-500 nums font-medium">
+                    <td className="py-4 px-3 text-zinc-700 nums font-bold text-xs sm:text-sm">
                       {row.date}
                     </td>
-                    <td className="py-3.5 px-3">
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] bg-zinc-100 text-zinc-700 capitalize font-medium border border-black/[0.04]">
+                    <td className="py-4 px-3">
+                      <span className="px-3 py-1 rounded-full text-xs bg-zinc-100 text-zinc-900 capitalize font-bold border border-black/5">
                         {row.timing.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className={`py-3.5 px-3 text-right font-bold nums text-sm ${row.stock_move_pct >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    <td className={`py-4 px-3 text-right font-black nums text-sm sm:text-base ${row.stock_move_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
                       {row.stock_move_pct > 0 ? `+${row.stock_move_pct}%` : `${row.stock_move_pct}%`}
                     </td>
-                    <td className="py-3.5 px-3 text-right nums font-semibold text-zinc-700">
+                    <td className="py-4 px-3 text-right nums font-extrabold text-sm sm:text-base">
                       {row.token_move_pct !== null && row.token_move_pct !== undefined ? (
-                        <span className={row.token_move_pct >= 0 ? 'text-emerald-600' : 'text-rose-600'}>
+                        <span className={row.token_move_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'}>
                           {row.token_move_pct > 0 ? `+${row.token_move_pct}%` : `${row.token_move_pct}%`}
                         </span>
                       ) : (
-                        <span className="text-zinc-400 italic font-normal text-[11px]">No token</span>
+                        <span className="text-zinc-500 italic font-medium text-xs">No token</span>
                       )}
                     </td>
                     <td className="py-3.5 px-3 text-right nums text-zinc-700 font-medium">

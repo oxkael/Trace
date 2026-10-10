@@ -25,15 +25,15 @@ export const VerdictBanner: React.FC<VerdictBannerProps> = ({ verdict }) => {
   const IconComponent = getIcon(verdict.code);
 
   return (
-    <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[32px] bg-white border border-black/[0.08] shadow-[0_2px_12px_rgba(0,0,0,0.02)] transition-all">
+    <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm transition-all">
       {/* Top Header: Badge & Evidence */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.06]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/10">
         <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase bg-zinc-950 text-white shadow-xs">
-            <IconComponent className="w-3.5 h-3.5" />
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold tracking-wider uppercase bg-black text-white shadow-xs">
+            <IconComponent className="w-4 h-4" />
             <span>{verdict.code}</span>
           </span>
-          <span className="text-xs font-medium text-zinc-400">
+          <span className="text-xs sm:text-sm font-extrabold text-zinc-600 uppercase tracking-wider">
             Assessed Market Condition
           </span>
         </div>
@@ -41,11 +41,11 @@ export const VerdictBanner: React.FC<VerdictBannerProps> = ({ verdict }) => {
         {/* Evidence Chips */}
         {verdict.evidence && verdict.evidence.length > 0 && (
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] text-zinc-400 font-medium">Triggered by:</span>
+            <span className="text-xs text-zinc-600 font-bold">Triggered by:</span>
             {verdict.evidence.map((ev, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-100 text-zinc-700 border border-black/[0.04]"
+                className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-white text-black border border-black/10 shadow-2xs"
               >
                 {ev}
               </span>
@@ -56,15 +56,15 @@ export const VerdictBanner: React.FC<VerdictBannerProps> = ({ verdict }) => {
 
       {/* Main Verdict Content */}
       <div className="mt-5">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
           {verdict.headline}
         </h2>
-        <p className="mt-2.5 text-sm sm:text-base text-zinc-600 leading-relaxed max-w-3xl font-normal">
+        <p className="mt-3 text-base sm:text-[18px] text-zinc-950 leading-relaxed sm:leading-[1.7] max-w-3xl font-medium">
           {verdict.reason}
         </p>
 
-        <div className="mt-5 pt-3.5 flex items-center gap-2 text-xs text-zinc-400 border-t border-black/[0.06]">
-          <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+        <div className="mt-5 pt-4 flex items-center gap-2 text-xs sm:text-sm text-zinc-600 font-medium border-t border-black/10">
+          <span className="w-2 h-2 rounded-full bg-zinc-500" />
           <span>{verdict.limitation}</span>
         </div>
       </div>

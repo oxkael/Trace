@@ -161,7 +161,7 @@ export interface OutlookData {
     revenue: {
       expected: Value;
       year_ago: Value;
-      growth: Value;
+      growth?: Value;
     };
   };
   recent_changes: AnalystChange[];

@@ -270,7 +270,7 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
                 <div className="text-right">
                   <span className="text-xs text-zinc-600 font-medium">Growth YoY</span>
                   <div className="text-base font-extrabold text-emerald-700 nums">
-                    {expectations.revenue.growth.display}
+                    {expectations.revenue.growth?.display ?? 'Unavailable'}
                   </div>
                 </div>
               </div>

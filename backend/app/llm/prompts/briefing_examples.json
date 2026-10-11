@@ -1,0 +1,127 @@
+[
+  {
+    "id": "example_1_weekend_check",
+    "intent": "trade",
+    "question": "Can I buy $1,000 of rNVDA this weekend?",
+    "output": {
+      "headline": "Yes. rNVDA trades around the clock, and right now it is doing so without a live NVIDIA price to anchor it.",
+      "summary": "rNVDA is at $231.35, 0.90% above NVDA's last close of $229.28 on Fri Oct 9, which comes from an unofficial Yahoo Finance quote. US markets stay shut until Mon Oct 12, 9:30 am ET, so the token's price is being set by Bitget traders alone. That gap could reflect news, light weekend activity, or both, and the data can't separate them. Trading is running at 0.67x its typical weekend pace, and $1,000 would be about 1.2% of the token's last 24 hours of turnover.",
+      "sections": [
+        {
+          "topic": "session",
+          "title": "What the closed market means",
+          "text": "The stock has no live price until US trading resumes Mon Oct 12, 9:30 am ET. The $229.28 figure is its last regular-session close, so the 0.90% gap compares the token with a price that is two days old.",
+          "fact_ids": ["reference_price", "premium_pct"],
+          "headline_ids": []
+        },
+        {
+          "topic": "activity",
+          "title": "How busy trading is",
+          "text": "Recent turnover is 0.67x the token's typical weekend pace, based on 84 comparable periods, which is a small sample.",
+          "fact_ids": ["activity_ratio"],
+          "headline_ids": []
+        },
+        {
+          "topic": "order_size",
+          "title": "Your amount in context",
+          "text": "$1,000 is about 1.2% of the token's last 24 hours of turnover. That shows size relative to this market's volume. It does not show what the price would do when your order fills.",
+          "fact_ids": ["order_share_24h"],
+          "headline_ids": []
+        }
+      ],
+      "worth_weighing": [
+        "The reference price is a Friday close, so any news since then is not reflected in it.",
+        "Whether the gap comes from news or from light trading can't be told from this data; the headlines, if any, are the place to check."
+      ],
+      "not_found": [
+        { "item": "Next earnings date", "note": "The source returned no date." },
+        { "item": "Analyst views and recent headlines", "note": "None retrieved in this check." }
+      ],
+      "terms": [
+        { "term": "Turnover", "meaning": "The total value traded over a period." }
+      ]
+    }
+  },
+  {
+    "id": "example_2_event_soon",
+    "intent": "check",
+    "question": "What should I know about rTSLA before earnings?",
+    "output": {
+      "headline": "rTSLA is tracking Tesla closely today, and the main thing ahead is earnings on Wed Oct 21 after the close.",
+      "summary": "With US markets open, rTSLA at $268.10 sits 0.26% above Tesla's delayed unofficial quote of $267.40, so the token and the stock are moving together. Tesla reports on Wed Oct 21 after the close; after its last six reports the stock's next-day moves ranged from -6.2% to +9.8%, and three of them were larger than 5%. Analysts are split: 14 rate it buy, 11 hold and 6 sell, with price targets from $190 to $350 against a price of $268.10.",
+      "sections": [
+        {
+          "topic": "price",
+          "title": "Token and stock together",
+          "text": "The token is 0.26% above Tesla's quote of $267.40. That quote is delayed and comes from Yahoo Finance, which is unofficial, so the gap is approximate.",
+          "fact_ids": ["token_price", "reference_price", "premium_pct"],
+          "headline_ids": []
+        },
+        {
+          "topic": "earnings_history",
+          "title": "The last six reports",
+          "text": "Next-day moves were -3.1%, +9.8%, -6.2%, +2.4%, +6.0% and +4.1%. Three moved more than 5%. Six events is a small sample, and these are past outcomes only.",
+          "fact_ids": ["history_range"],
+          "headline_ids": []
+        },
+        {
+          "topic": "analysts",
+          "title": "Where analysts split",
+          "text": "Consensus is 14 buy, 11 hold and 6 sell across 31 analysts, with targets from $190 to $350 and a mean of $255. On Oct 14, Firm A lowered its target from $240 to $225.",
+          "fact_ids": ["consensus", "price_targets"],
+          "headline_ids": []
+        },
+        {
+          "topic": "events",
+          "title": "What's expected",
+          "text": "Analysts expect earnings per share of $0.72, against $0.58 a year ago.",
+          "fact_ids": ["estimates"],
+          "headline_ids": []
+        }
+      ],
+      "worth_weighing": [
+        "The report lands after the close, so the first reaction in the stock comes at the next open, while the token trades through the evening.",
+        "Targets span $160, which is wide; the mean of $255 sits below today's $268.10."
+      ],
+      "not_found": [],
+      "terms": [
+        { "term": "Price target", "meaning": "An analyst's published estimate of where a stock could trade in about a year." }
+      ]
+    }
+  },
+  {
+    "id": "example_3_prediction_question",
+    "intent": "check",
+    "question": "Will rAMD go up this week?",
+    "output": {
+      "headline": "I can't say where rAMD goes this week, but here is what the data shows right now.",
+      "summary": "rAMD is at $152.20 and trading at 0.95x its usual pace for this time of week. I couldn't retrieve AMD's own quote, so I can't compare the token with the stock. I also found no earnings date or analyst data in the sources checked. Two headlines came back, listed below by title only.",
+      "sections": [
+        {
+          "topic": "activity",
+          "title": "Trading pace",
+          "text": "Recent turnover is 0.95x the token's typical pace for this time of week, so trading is close to normal.",
+          "fact_ids": ["activity_ratio"],
+          "headline_ids": []
+        },
+        {
+          "topic": "news",
+          "title": "Headlines found",
+          "text": "Two headlines came back, from the source marked below. Only their titles were available, so I can't say more than what the titles state.",
+          "fact_ids": [],
+          "headline_ids": ["h1", "h2"]
+        }
+      ],
+      "worth_weighing": [
+        "Without AMD's quote, there is no way here to tell whether the token's price matches the stock's.",
+        "Earnings timing is unknown from this check, which matters for how an upcoming week could unfold."
+      ],
+      "not_found": [
+        { "item": "AMD stock quote", "note": "The source returned no data." },
+        { "item": "Earnings date", "note": "Not found in the sources checked." },
+        { "item": "Analyst views", "note": "Not found in the sources checked." }
+      ],
+      "terms": []
+    }
+  }
+]

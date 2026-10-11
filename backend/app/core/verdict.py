@@ -11,65 +11,61 @@ def evaluate_verdict(
     ticker: str
 ) -> Verdict:
     """
-    Evaluates condition verdict based on Part B.5 F6:
-    First match wins:
-    1. INSUFFICIENT_DATA: Session status or token price unavailable
-    2. WAIT: Underlying market closed and reference is a last close
-    3. CAUTION: Token and underlying differ beyond threshold, both fresh
-    4. QUIET: Activity ratio below threshold
-    5. REASONABLE: None of the above
+    Evaluates legacy condition verdict for backward compatibility.
+    Does NOT issue 'WAIT' or gate trades, as tokenized assets trade 24/7.
+    Returns neutral condition summaries.
     """
     # 1. INSUFFICIENT_DATA
     if token_price_val.tag == "unavailable" or token_price_val.value is None:
         return Verdict(
             code="INSUFFICIENT_DATA",
-            tone="warning",
-            headline="Live feed data is currently unavailable",
-            reason=f"Cannot establish audited real-time token pricing for {ticker}.",
-            limitation="Describes missing data state only. Cannot assess current conditions.",
+            tone="neutral",
+            headline="Live feed data is currently limited",
+            reason=f"Cannot establish real-time token pricing for {ticker}.",
+            limitation="Describes missing data state only. Token continues trading on Bitget.",
             evidence=["token_price"]
         )
 
-    # 2. WAIT
-    if session.state in ("closed", "overnight", "holiday"):
+    # 2. Closed / Overnight / Weekend (Neutral off-hours session, NOT WAIT)
+    if session.state in ("closed", "overnight", "holiday", "weekend"):
         return Verdict(
-            code="WAIT",
-            tone="warning",
-            headline="The real stock market is closed",
-            reason=f"The underlying US market is closed ({session.state}). The price you see trades against last regular close and may not reflect underlying market-open valuation.",
-            limitation="Describes current session conditions only. Not a price prediction or advice.",
+            code="QUIET",
+            tone="neutral",
+            headline="US markets closed; token trading on its own",
+            reason=f"The underlying US stock market is {session.state}. The token continues trading on Bitget against the last regular close.",
+            limitation="Describes market session context only. 24/7 tokens trade continuously.",
             evidence=["session", "reference_price"]
         )
 
-    # 3. CAUTION
+    # 3. Divergence notice
     if deviation_val.value is not None and abs(deviation_val.value) >= settings.DIVERGENCE_CAUTION_PCT:
         direction = "premium" if deviation_val.value > 0 else "discount"
         return Verdict(
             code="CAUTION",
-            tone="warning",
-            headline=f"Token price divergence ({deviation_val.display})",
-            reason=f"Tokenized {ticker} is trading at a {abs(deviation_val.value):.2f}% {direction} relative to official underlying reference pricing.",
-            limitation="Spread and liquidity dynamics may widen outside regular equity order books.",
+            tone="neutral",
+            headline=f"Token price gap ({deviation_val.display})",
+            reason=f"Tokenized {ticker} is trading at a {abs(deviation_val.value):.2f}% {direction} relative to underlying reference pricing.",
+            limitation="Observed gap reflects independent 24/7 token trading dynamics.",
             evidence=["deviation", "token_price", "reference_price"]
         )
 
-    # 4. QUIET
+    # 4. Low Activity
     if activity_ratio_val.value is not None and activity_ratio_val.value < settings.ACTIVITY_QUIET_RATIO:
         return Verdict(
             code="QUIET",
             tone="neutral",
-            headline="Trading activity is quieter than normal",
-            reason=f"Observed turnover is {activity_ratio_val.display} of normal session activity. Liquidity may be thin.",
-            limitation="Low volume indicates lower market engagement, not guaranteed adverse movement.",
+            headline=f"Turnover pace is light ({activity_ratio_val.display})",
+            reason=f"Trading turnover is currently running at {activity_ratio_val.display} of typical pace.",
+            limitation="Turnover measures trading volume activity, not order book depth.",
             evidence=["activity_ratio"]
         )
 
-    # 5. REASONABLE
+    # 5. Regular tracking
     return Verdict(
         code="REASONABLE",
-        tone="positive",
-        headline="Market conditions look normal",
-        reason=f"Underlying equity session is active, token spread is within normal boundaries ({deviation_val.display}), and turnover is healthy.",
-        limitation="Normal conditions do not guarantee favorable execution fills or immune from subsequent catalyst volatility.",
-        evidence=["session", "deviation", "activity_ratio"]
+        tone="neutral",
+        headline="Token tracking equity reference",
+        reason=f"Trading in {ticker} is proceeding with normal session activity and narrow tracking.",
+        limitation="Conditions describe recent observed metrics only.",
+        evidence=["token_price", "reference_price", "deviation"]
     )

@@ -29,6 +29,37 @@ class Verdict(BaseModel):
     limitation: str
     evidence: List[str]
 
+class SignalItem(BaseModel):
+    id: str
+    text: str
+    tone: Literal["neutral", "notice"]
+
+class BriefingSection(BaseModel):
+    topic: str
+    title: str
+    text: str
+    fact_ids: List[str] = Field(default_factory=list)
+    headline_ids: List[str] = Field(default_factory=list)
+
+class BriefingNotFound(BaseModel):
+    item: str
+    note: str
+
+class BriefingTerm(BaseModel):
+    term: str
+    meaning: str
+
+class Briefing(BaseModel):
+    headline: str
+    summary: str
+    sections: List[BriefingSection] = Field(default_factory=list)
+    worth_weighing: List[str] = Field(default_factory=list)
+    not_found: List[BriefingNotFound] = Field(default_factory=list)
+    terms: List[BriefingTerm] = Field(default_factory=list)
+    validated: bool = True
+    fallback_used: bool = False
+
+
 class MarketSession(BaseModel):
     state: Literal["pre_market", "regular", "after_hours", "overnight", "closed", "holiday"]
     next_open: Optional[str] = None
@@ -212,7 +243,9 @@ class AssessmentResponse(BaseModel):
     mode: Literal["demo", "live"] = "demo"
     mock: Optional[bool] = False
     request: AssessmentRequest
-    verdict: Verdict
+    verdict: Optional[Verdict] = None
+    signals: List[SignalItem] = Field(default_factory=list)
+    briefing: Optional[Briefing] = None
     facts: List[FactItem]
     market: MarketData
     events: EventsData

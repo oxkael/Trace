@@ -29,6 +29,41 @@ export interface Verdict {
   evidence: string[];
 }
 
+export interface SignalItem {
+  id: string;
+  text: string;
+  tone: 'neutral' | 'notice';
+}
+
+export interface BriefingSection {
+  topic: string;
+  title: string;
+  text: string;
+  fact_ids?: string[];
+  headline_ids?: string[];
+}
+
+export interface BriefingNotFound {
+  item: string;
+  note: string;
+}
+
+export interface BriefingTerm {
+  term: string;
+  meaning: string;
+}
+
+export interface Briefing {
+  headline: string;
+  summary: string;
+  sections: BriefingSection[];
+  worth_weighing: string[];
+  not_found: BriefingNotFound[];
+  terms: BriefingTerm[];
+  validated?: boolean;
+  fallback_used?: boolean;
+}
+
 export type SessionState = 'pre_market' | 'regular' | 'after_hours' | 'overnight' | 'closed' | 'holiday';
 export type ReferenceKind = 'live' | 'last_close' | 'delayed';
 
@@ -199,7 +234,9 @@ export interface AssessmentResponse {
     amount_usd?: number;
     context?: string;
   };
-  verdict: Verdict;
+  verdict?: Verdict;
+  signals?: SignalItem[];
+  briefing?: Briefing;
   facts: Array<{
     id: string;
     label: string;

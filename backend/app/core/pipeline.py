@@ -4,19 +4,21 @@ from typing import AsyncGenerator, Dict, Any
 
 from ..schemas import (
     AssessmentResponse, AssessmentRequest, FactItem, MarketData, MarketReference,
-    Explanation, OptionItem, DataStatusSource, ProgressStep, Value
+    Explanation, OptionItem, DataStatusSource, ProgressStep, Value, SignalItem, Briefing
 )
 from ..config import settings
 from .session import get_market_session
 from .divergence import compute_divergence
 from .activity import compute_activity_ratio
 from .verdict import evaluate_verdict
+from .signals import compute_signals
 from .events import get_catalyst_data
 from .outlook import get_outlook_data
 from ..clients.bitget import bitget_client
 from ..clients.yahoo import yahoo_client
 from ..llm.interpret import parse_user_query
 from ..llm.client import llm_client
+from ..llm.payload_builder import build_briefing_payload
 from ..db.database import save_request, log_verdict
 
 async def run_assessment_pipeline(
@@ -101,7 +103,13 @@ async def run_assessment_pipeline(
         "ms": 190
     }
 
-    # Step 8: Verdict Ready
+    # Step 8: Signals & Condition Evaluated
+    signals = compute_signals(
+        session=session,
+        deviation_val=divergence_val,
+        activity_ratio_val=activity_val,
+        events_data=events_data
+    )
     verdict = evaluate_verdict(
         session=session,
         token_price_val=token_val,
@@ -113,31 +121,35 @@ async def run_assessment_pipeline(
     yield {
         "step": "verdict_ready",
         "status": "done",
-        "label": f"Evaluated condition verdict ({verdict.code})",
+        "label": f"Evaluated condition signals ({len(signals)} signals active)",
         "ms": 40
     }
 
-    # Step 9: Explanation Ready (Synthesized through LLM with fallback guardrail)
+    # Step 9: Structured Briefing Synthesis (Gemini LLM with JSON mode & guardrails)
     outlook = get_outlook_data(clean_ticker, token_val)
-    explanation_text, is_valid, fallback_used = await llm_client.synthesize_explanation(
-        token_symbol=token_symbol,
+    briefing_payload = build_briefing_payload(
+        question=message,
+        parsed=parsed,
         clean_ticker=clean_ticker,
-        session_state=session.state,
-        token_price_display=token_val.display,
-        ref_price_display=ref_val.display,
-        divergence_display=divergence_val.display,
-        history_count=len(history),
-        user_query=message,
-        activity_display=f"{activity_val.display} ({market_activity.bucket})",
-        verdict_code=verdict.code,
-        catalyst_banner=events_data.banner.text if events_data.banner else "",
-        outlook_summary=outlook.brief.text if outlook.brief else ""
+        token_symbol=token_symbol,
+        session=session,
+        token_val=token_val,
+        ref_val=ref_val,
+        divergence_val=divergence_val,
+        activity_val=activity_val,
+        turnover_24h=turnover,
+        events_data=events_data,
+        history=history,
+        outlook=outlook,
+        signals=signals
     )
+
+    briefing = await llm_client.generate_briefing(briefing_payload)
 
     yield {
         "step": "explanation_ready",
         "status": "done",
-        "label": "Grounded condition synthesis ready",
+        "label": "Event-aware market briefing ready",
         "ms": 85
     }
 
@@ -167,11 +179,11 @@ async def run_assessment_pipeline(
         OptionItem(
             id="opt_confirm",
             kind="confirm_order",
-            label="Buy $50 (Demo)",
+            label=f"Buy ${active_amount:.0f} (Demo)",
             enabled=settings.ORDERS_ENABLED,
             disabled_reason=None if settings.ORDERS_ENABLED else "Orders temporarily paused",
             requires_confirmation=True,
-            params={"ticker": clean_ticker, "token": token_symbol, "side": "buy", "amount_usd": 50.0}
+            params={"ticker": clean_ticker, "token": token_symbol, "side": "buy", "amount_usd": float(active_amount)}
         ),
         OptionItem(
             id="opt_adjust",
@@ -191,6 +203,9 @@ async def run_assessment_pipeline(
         )
     ]
 
+    # Combine headline and summary for backward-compatible explanation string
+    combined_explanation_text = f"{briefing.headline} {briefing.summary}".strip()
+
     assessment = AssessmentResponse(
         type="assessment",
         request_id=req_id,
@@ -200,11 +215,13 @@ async def run_assessment_pipeline(
         request=AssessmentRequest(
             ticker=active_ticker,
             token=token_symbol,
-            side=active_side, # type: ignore
+            side=active_side if active_side in ("buy", "sell", "hold") else "buy",
             amount_usd=active_amount,
-            context=parsed.intent if parsed.intent in ("trade", "check", "research", "holding_check") else "trade" # type: ignore
+            context=parsed.intent if parsed.intent in ("trade", "check", "research", "holding_check") else "trade"
         ),
         verdict=verdict,
+        signals=signals,
+        briefing=briefing,
         facts=facts,
         market=market,
         events=events_data,
@@ -212,9 +229,9 @@ async def run_assessment_pipeline(
         outlook=outlook,
         explanation=Explanation(
             kind="interpretation",
-            text=explanation_text,
-            validated=is_valid,
-            fallback_used=fallback_used
+            text=combined_explanation_text,
+            validated=briefing.validated,
+            fallback_used=briefing.fallback_used
         ),
         options=options,
         data_status={

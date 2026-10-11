@@ -2,16 +2,23 @@ import re
 import json
 import os
 from typing import Dict, Any, List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class ParsedIntent(BaseModel):
-    intent: str # "trade", "check", "research", "event_question", "outlook_question", "activity_question", "holding_check", "scoreboard", "unsupported"
+    intent: str = "check"  # check | trade | holding_check | event_question | outlook_question | activity_question | compare | scoreboard | other
     ticker: str = "NVDA"
+    tickers: List[str] = Field(default_factory=lambda: ["NVDA"])
     token: str = "rNVDA"
-    side: str = "buy" # "buy", "sell", "hold"
+    side: Optional[str] = "buy"  # "buy", "sell", or None
     amount_usd: Optional[float] = None
-    needs_clarification: bool = False
-    clarification_question: Optional[str] = None
+    event_type: Optional[str] = None
+    timeframe: Optional[str] = None
+    holding: bool = False
+    followup: bool = False
+    asks_prediction: bool = False
+    asks_advice: bool = False
+    missing: List[str] = Field(default_factory=list)
+    clarifying_question: Optional[str] = None
 
 SUPPORTED_TICKERS = {
     "NVDA": "rNVDA",
@@ -31,87 +38,99 @@ TICKER_ALIASES = {
     "RAMZN": "AMZN"
 }
 
-def parse_user_query(message: str) -> ParsedIntent:
+def parse_user_query_rules(message: str) -> ParsedIntent:
     """
-    Four-stage interpreter matching Part D.8.2:
-    1. Pre-pass (rules): extract amounts ($2k, 500, etc), side, supported tickers.
-    2. Entity resolution: resolve aliases or detect unsupported tickers.
-    3. Intent classification: trade, check, research, event, outlook, activity, scoreboard.
-    4. Refusal handling: refusals for prediction questions ('will NVDA go up?').
+    Rule-based parser adhering to LLM_PROMPTS.md Section 8.
+    Never refuses prediction or advice queries; marks asks_prediction or asks_advice instead.
     """
     clean = message.strip()
     upper = clean.upper()
 
-    # Check for direct prediction asks
-    if any(phrase in upper for phrase in ["WILL IT GO UP", "WILL IT GO DOWN", "PRICE PREDICTION", "PRICE TARGET", "SHOULD I BUY TO MAKE PROFIT"]):
-        # Unsupported prediction request (refusal according to Part B.5)
-        return ParsedIntent(
-            intent="unsupported",
-            ticker="NVDA",
-            token="rNVDA",
-            needs_clarification=True,
-            clarification_question="Trace evaluates observed market conditions and historical catalyst look-backs only. It does not provide price forecasts, predictions, or investment advice."
-        )
+    asks_prediction = any(p in upper for p in ["WILL IT GO UP", "WILL IT GO DOWN", "PRICE PREDICTION", "PRICE TARGET", "WILL NVDA GO UP", "WILL TSLA GO UP", "WHERE IS THE PRICE GOING", "WHERE WILL"])
+    asks_advice = any(p in upper for p in ["SHOULD I BUY", "SHOULD I SELL", "IS IT A GOOD TIME", "ADVISE ME", "WHAT SHOULD I DO"])
 
-    # 1. Resolve ticker
-    detected_ticker = "NVDA" # default
-    ticker_found = False
+    # 1. Resolve tickers
+    found_tickers: List[str] = []
     for alias, standard in TICKER_ALIASES.items():
-        if alias in upper:
-            detected_ticker = standard
-            ticker_found = True
-            break
-    
-    if not ticker_found:
-        for sym in SUPPORTED_TICKERS.keys():
-            if re.search(r'\b' + sym + r'\b', upper):
-                detected_ticker = sym
-                ticker_found = True
-                break
+        if alias in upper and standard not in found_tickers:
+            found_tickers.append(standard)
+
+    for sym in SUPPORTED_TICKERS.keys():
+        if re.search(r'\b' + sym + r'\b', upper) and sym not in found_tickers:
+            found_tickers.append(sym)
+
+    missing = []
+    clarifying_question = None
+    if not found_tickers:
+        detected_ticker = "NVDA"
+        found_tickers = ["NVDA"]
+    else:
+        detected_ticker = found_tickers[0]
+
+    token_symbol = SUPPORTED_TICKERS.get(detected_ticker, f"r{detected_ticker}")
 
     # 2. Extract amount
     amount_usd = None
     amount_match = re.search(r'\$\s*([0-9,]+(?:\.[0-9]+)?)', clean)
     if amount_match:
-        amount_usd = float(amount_match.group(1).replace(",", ""))
+        try:
+            amount_usd = float(amount_match.group(1).replace(",", ""))
+        except ValueError:
+            pass
     else:
-        # Check for words like 500 dollars or 2k
         k_match = re.search(r'([0-9]+(?:\.[0-9]+)?)\s*k\b', clean, re.IGNORECASE)
         if k_match:
-            amount_usd = float(k_match.group(1)) * 1000.0
+            try:
+                amount_usd = float(k_match.group(1)) * 1000.0
+            except ValueError:
+                pass
         else:
             num_match = re.search(r'([0-9]+)\s*(?:dollars|usd)', clean, re.IGNORECASE)
             if num_match:
-                amount_usd = float(num_match.group(1))
+                try:
+                    amount_usd = float(num_match.group(1))
+                except ValueError:
+                    pass
 
     # 3. Extract side
     side = "buy"
     if "SELL" in upper:
         side = "sell"
     elif "HOLD" in upper or "HOLDING" in upper:
-        side = "hold"
+        side = None
+
+    holding = "HOLDING" in upper or "I HOLD" in upper or "I'M HOLDING" in upper or "I AM HOLDING" in upper
 
     # 4. Classify intent
     intent = "check"
-    if amount_usd is not None or any(w in upper for w in ["CAN I BUY", "CAN I SELL", "PLACE ORDER", "PURCHASE"]):
+    if len(found_tickers) > 1 or "COMPARE" in upper or "VS" in upper:
+        intent = "compare"
+    elif amount_usd is not None or any(w in upper for w in ["CAN I BUY", "CAN I SELL", "PLACE ORDER", "PURCHASE", "SHOULD I BUY", "SHOULD I SELL"]):
         intent = "trade"
     elif any(w in upper for w in ["EARNINGS", "CATALYST", "WHEN DOES", "REPORT", "LOOKBACK", "LAST TIME"]):
         intent = "event_question"
-    elif any(w in upper for w in ["ANALYST", "ANALYSTS", "TARGETS", "WALL STREET", "SPLIT ON", "NEWS"]):
+    elif any(w in upper for w in ["ANALYST", "ANALYSTS", "TARGETS", "WALL STREET", "SPLIT ON", "NEWS", "CONSENSUS"]):
         intent = "outlook_question"
-    elif any(w in upper for w in ["ACTIVITY", "QUIET", "VOLUME", "TURNOVER", "LIQUIDITY", "BUSY"]):
+    elif any(w in upper for w in ["ACTIVITY", "QUIET", "VOLUME", "TURNOVER", "BUSY", "PACE"]):
         intent = "activity_question"
     elif any(w in upper for w in ["SCOREBOARD", "ACCURACY", "WARNINGS", "LEDGER", "TRACK RECORD"]):
         intent = "scoreboard"
-    elif any(w in upper for w in ["HOLDING", "OVER THE WEEKEND", "WATCH"]):
+    elif holding:
         intent = "holding_check"
-    elif any(w in upper for w in ["WHAT'S GOING ON", "TELL ME ABOUT", "RESEARCH", "OVERVIEW"]):
-        intent = "research"
 
     return ParsedIntent(
         intent=intent,
         ticker=detected_ticker,
-        token=SUPPORTED_TICKERS[detected_ticker],
+        tickers=found_tickers,
+        token=token_symbol,
         side=side,
-        amount_usd=amount_usd
+        amount_usd=amount_usd,
+        holding=holding,
+        asks_prediction=asks_prediction,
+        asks_advice=asks_advice,
+        missing=missing,
+        clarifying_question=clarifying_question
     )
+
+def parse_user_query(message: str) -> ParsedIntent:
+    return parse_user_query_rules(message)

@@ -26,7 +26,7 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
     <MiddleSection className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10 sm:space-y-14 lg:space-y-16">
       {/* 1. AI Grounded Readout / Intent Synthesis (Brought to the top after user prompt) */}
       <RevealBlock delay={0} className="max-w-[920px] mx-auto">
-        <ExplanationBox explanation={data.explanation} />
+        <ExplanationBox explanation={data.explanation} briefing={data.briefing} signals={data.signals} />
       </RevealBlock>
 
       {/* 2. Key Facts Grid with Scroll-Driven Float & Lift (Expansive 1140px data span) */}

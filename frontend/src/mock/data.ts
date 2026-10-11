@@ -117,17 +117,17 @@ export const MOCK_ASSESSMENT_NVDA: AssessmentResponse = {
   events: {
     banner: {
       event_id: 'evt_nvda_q3',
-      text: 'NVIDIA reports Q3 Earnings in 18 hours (after-close)',
-      tone: 'warning'
+      text: 'NVDA upcoming catalyst: NVIDIA Q3 FY2026 Earnings Release scheduled for Nov 19 (in 39 days)',
+      tone: 'neutral'
     },
     upcoming: [
       {
         id: 'evt_nvda_q3',
         type: 'earnings',
-        title: 'Q3 FY2027 Earnings Release & Webcast',
-        event_time: '2026-10-11T20:20:00Z',
+        title: 'NVIDIA Q3 FY2026 Earnings Release & Webcast',
+        event_time: '2026-11-19T21:00:00Z',
         timing: 'after_close',
-        relative: 'in 18 hours',
+        relative: 'in 39 days',
         source: 'ir.nvidia.com',
         source_url: 'https://investor.nvidia.com',
         summary: 'Company report followed by conference call at 5:00 PM ET regarding Blackwell data center shipments.'

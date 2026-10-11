@@ -1,0 +1,1 @@
+The trader wants to know what analysts and news are saying. Describe where views lean using the buy/hold/sell split, the range of price targets against the current price, the main arguments on each side and how many sources support each, and recent changes. Attribute every view. If views disagree, show the spread and who is on each side. Do not choose a side.

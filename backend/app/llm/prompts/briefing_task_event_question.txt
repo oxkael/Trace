@@ -1,0 +1,1 @@
+The trader asked about an event. Say what the event is and when, what is expected, and what the stock did around the last similar events, including how many events were used and any excluded. Make clear these are past outcomes, not a forecast.

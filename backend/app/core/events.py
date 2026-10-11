@@ -1,24 +1,25 @@
-from typing import Dict, Any, List
+from datetime import datetime, timezone
+from typing import Dict, Any, List, Optional
 from ..schemas import LookbackRow, EventItem, EventBanner, EventsData, OutlookData
 
 # Historical Look-back catalyst data for supported tickers
 CATALYSTS_DB: Dict[str, Dict[str, Any]] = {
     "NVDA": {
         "upcoming_event": EventItem(
-            id="e_nvda_q4",
+            id="e_nvda_q3",
             type="earnings",
-            title="NVIDIA Q4 FY2026 Earnings Release",
-            event_time="2026-10-24T21:00:00Z",
+            title="NVIDIA Q3 FY2026 Earnings Release",
+            event_time="2026-11-19T21:00:00Z",
             timing="after_close",
-            relative="in 18 hours",
+            relative="in 39 days",
             source="NVIDIA Investor Relations",
             source_url="https://investor.nvidia.com",
             summary="Consensus expectation focuses on Blackwell datacenter revenue ramp and gross margin trajectory."
         ),
         "banner": EventBanner(
-            event_id="e_nvda_q4",
-            text="NVDA reports earnings in 18 hours (After Market Close)",
-            tone="warning"
+            event_id="e_nvda_q3",
+            text="NVIDIA Q3 Earnings scheduled for Nov 19",
+            tone="neutral"
         ),
         "history": [
             LookbackRow(
@@ -166,10 +167,55 @@ CATALYSTS_DB: Dict[str, Dict[str, Any]] = {
 def get_catalyst_data(ticker: str) -> (EventsData, List[LookbackRow]):
     clean = ticker.upper().replace("R", "")
     info = CATALYSTS_DB.get(clean, CATALYSTS_DB["NVDA"])
+    now = datetime.now(timezone.utc)
+
+    upcoming_event = info.get("upcoming_event")
+    upcoming_list: List[EventItem] = []
+    banner: Optional[EventBanner] = None
+
+    if upcoming_event:
+        try:
+            ev_dt = datetime.fromisoformat(upcoming_event.event_time.replace("Z", "+00:00"))
+            delta_sec = (ev_dt - now).total_seconds()
+            delta_days = int(delta_sec // 86400)
+            delta_hours = int(delta_sec // 3600)
+
+            if delta_sec < 0:
+                rel_str = "concluded"
+            elif delta_days >= 2:
+                rel_str = f"in {delta_days} days"
+            elif delta_hours >= 1:
+                rel_str = f"in {delta_hours} hours"
+            else:
+                rel_str = "imminent"
+
+            ev_copy = upcoming_event.model_copy()
+            ev_copy.relative = rel_str
+            upcoming_list.append(ev_copy)
+
+            # Date formatted e.g. "Nov 19"
+            date_label = ev_dt.strftime("%b %d")
+
+            # Product Spec: Banner window default 48h
+            if 0 <= delta_hours <= 48:
+                banner = EventBanner(
+                    event_id=ev_copy.id,
+                    text=f"{clean} catalyst approaching: {ev_copy.title} {rel_str} ({date_label})",
+                    tone="warning"
+                )
+            else:
+                banner = EventBanner(
+                    event_id=ev_copy.id,
+                    text=f"{clean} upcoming catalyst: {ev_copy.title} scheduled for {date_label} ({rel_str})",
+                    tone="neutral"
+                )
+        except Exception:
+            upcoming_list.append(upcoming_event)
+            banner = info.get("banner")
 
     events = EventsData(
-        banner=info.get("banner"),
-        upcoming=[info["upcoming_event"]] if "upcoming_event" in info else [],
+        banner=banner,
+        upcoming=upcoming_list,
         recent=[]
     )
     history = info.get("history", [])

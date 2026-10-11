@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Bitget Public Time",
+    "url": "https://api.bitget.com/api/v2/public/time",
+    "tested_at": "2026-10-11T19:05:21.643393+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"code\":\"00000\",\"msg\":\"success\",\"requestTime\":1791745510168,\"data\":{\"serverTime\":\"1791745510169\"}}"
+  },
+  {
+    "name": "Bitget Spot Ticker (RNVDAUSDT)",
+    "url": "https://api.bitget.com/api/v2/spot/market/tickers?symbol=RNVDAUSDT",
+    "tested_at": "2026-10-11T19:05:22.956743+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"code\":\"00000\",\"msg\":\"success\",\"requestTime\":1791745510987,\"data\":[{\"open\":\"230.42\",\"symbol\":\"RNVDAUSDT\",\"high24h\":\"231.63\",\"low24h\":\"230.75\",\"lastPr\":\"231.38\",\"quoteVolume\":\"102671.288\",\"baseVolume\":\"443.8756\",\"usdtVolume\":\"102671.287924\",\"ts\":\"1791745509567\",\"bidPr\":\"231.38\",\"askPr\":\"231.51\",\"bid"
+  },
+  {
+    "name": "Bitget Spot Candles (RNVDAUSDT 1h)",
+    "url": "https://api.bitget.com/api/v2/spot/market/candles?symbol=RNVDAUSDT&granularity=1h&limit=5",
+    "tested_at": "2026-10-11T19:05:23.787773+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"code\":\"00000\",\"msg\":\"success\",\"requestTime\":1791745511887,\"data\":[[\"1791730800000\",\"230.55\",\"230.83\",\"230.47\",\"230.82\",\"58.2213\",\"13428.367368\",\"13428.367368\"],[\"1791734400000\",\"230.79\",\"231.57\",\"230.75\",\"231.48\",\"184.995\",\"42773.807453\",\"42773.807453\"],[\"1791738000000\",\"231.48\",\"231.57\",\"231.18\","
+  },
+  {
+    "name": "Bitget Spot Depth (RNVDAUSDT)",
+    "url": "https://api.bitget.com/api/v2/spot/market/orderbook?symbol=RNVDAUSDT&type=step0&limit=5",
+    "tested_at": "2026-10-11T19:05:24.685905+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"code\":\"00000\",\"msg\":\"success\",\"requestTime\":1791745512881,\"data\":{\"asks\":[[\"231.51\",\"159.3600\"],[\"231.54\",\"253.4400\"],[\"231.60\",\"0.0433\"],[\"231.66\",\"250.0800\"],[\"231.67\",\"114.2400\"]],\"bids\":[[\"231.38\",\"8.6926\"],[\"231.29\",\"25.6139\"],[\"231.26\",\"12.2455\"],[\"231.24\",\"6.6244\"],[\"231.23\",\"6.7444\"]],\"ts\""
+  },
+  {
+    "name": "Bitget Supported Symbols (Reality Instruments)",
+    "url": "https://api.bitget.com/api/v2/spot/public/symbols",
+    "tested_at": "2026-10-11T19:05:25.691782+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"code\":\"00000\",\"msg\":\"success\",\"requestTime\":1791745513747,\"data\":[{\"symbol\":\"RCVCOUSDT\",\"baseCoin\":\"rCVCO\",\"quoteCoin\":\"USDT\",\"minTradeAmount\":\"0\",\"maxTradeAmount\":\"900000000000000000000\",\"takerFeeRate\":\"0.001\",\"makerFeeRate\":\"0.001\",\"pricePrecision\":\"2\",\"quantityPrecision\":\"4\",\"quotePrecision\":\"6"
+  },
+  {
+    "name": "Bitget Candle History Depth (RNVDAUSDT 1h)",
+    "url": "https://api.bitget.com/api/v2/spot/market/candles?symbol=RNVDAUSDT&granularity=1h&limit=1000",
+    "tested_at": "2026-10-11T19:05:28.250837+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "Returned 1000 1h candles spanning 1002.0 hours (~41.8 days)"
+  },
+  {
+    "name": "Bitget MCP: Initialize & Tools List",
+    "url": "https://agent.bitget.com/mcp (initialize & tools/list)",
+    "tested_at": "2026-10-11T19:05:30.045656+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "Connected with session 7dbdc155fa... Discovered tools: guide, do_query"
+  },
+  {
+    "name": "Bitget MCP: Stock Quote (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_price_quote)",
+    "tested_at": "2026-10-11T19:05:34.296052+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbddf-2008-7aad-8000-fb1c8a13a570\",\"results\":[{\"symbol\":\"NVDA\",\"last_price\":231.38,\"open\":230.6,\"high\":231.63,\"low\":230.2,\"close\":231.38,\"volume\":672.7151000000006,\"prev"
+  },
+  {
+    "name": "Bitget MCP: Earnings Calendar (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_calendar)",
+    "tested_at": "2026-10-11T19:05:35.317592+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbddf-2fed-7677-8000-31f455318dec\",\"results\":[{\"symbol\":\"NVDA\",\"period_ending\":\"2026-07-30\",\"fiscal_year\":\"2027\",\"name\":\"?????\",\"listed_country_code\":\"US\",\"listed_countr"
+  },
+  {
+    "name": "Bitget MCP: Analyst Price Targets (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_estimates_price_target)",
+    "tested_at": "2026-10-11T19:05:38.205537+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbddf-6eec-7761-8000-00be969ff387\",\"results\":[{\"published_date\":\"2026-10-01\",\"symbol\":\"NVDA\",\"analyst_firm\":\"Cantor Fitzgerald\",\"price_target\":350.0,\"price_target_previo"
+  },
+  {
+    "name": "Bitget MCP: Analyst Consensus (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_estimates_consensus)",
+    "tested_at": "2026-10-11T19:05:59.314263+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbde0-b41d-7f3c-8000-63b151574eee\",\"results\":[{\"symbol\":\"NVDA\",\"target_high\":0.98,\"target_low\":0.72,\"target_consensus\":0.82,\"fore_indicator_name\":\"EPS\",\"data_source\":\"??"
+  },
+  {
+    "name": "Bitget MCP: Forward EPS Estimates (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_estimates_forward_eps)",
+    "tested_at": "2026-10-11T19:06:03.844376+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbde1-0168-740d-8000-8f86bbc88cdb\",\"results\":[{\"symbol\":\"NVDA\",\"date\":\"2029-01-30\",\"fiscal_year\":2029,\"mean\":11.678,\"annual\":2029,\"publish_ed\":\"2029-01-30\",\"is_actual_va"
+  },
+  {
+    "name": "Bitget MCP: Fundamental Dividends & Splits (NVDA)",
+    "url": "https://agent.bitget.com/mcp (entry_id: equity_fundamental_dividends)",
+    "tested_at": "2026-10-11T19:06:26.584356+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":200,\"data\":{\"id\":\"06acbde2-63d4-7e3b-8000-09c9c95244a6\",\"results\":[{\"symbol\":\"NVDA\",\"ex_dividend_date\":\"2026-09-10\",\"amount\":0.25,\"currency\":\"USD\",\"declaration_date\":\"2026-08-26\",\"record_dat"
+  },
+  {
+    "name": "Bitget MCP: Financial News Search",
+    "url": "https://agent.bitget.com/mcp (entry_id: news_label_search)",
+    "tested_at": "2026-10-11T19:06:28.152288+00:00",
+    "status_code": 204,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"success\":true,\"status_code\":204,\"data\":\"\",\"error\":null}"
+  },
+  {
+    "name": "Session Status & Next Open Computation",
+    "url": "internal: America/New_York session clock",
+    "tested_at": "2026-10-11T19:06:29.611013+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"calculated_at_utc\": \"2026-10-11T19:06:29.611013+00:00\", \"ny_time\": \"2026-10-11 15:06:29 EDT\", \"ny_weekday\": \"Sunday\", \"state\": \"closed\", \"is_weekend\": true, \"next_open_utc\": \"2026-10-12T13:30:00+00:00\", \"next_open_relative\": \"in 18h 23m\", \"official_reference_type\": \"last_close\"}"
+  },
+  {
+    "name": "Market Calendar (NYSE/NASDAQ 2026)",
+    "url": "internal: NYSE/NASDAQ Schedule & Holidays",
+    "tested_at": "2026-10-11T19:06:29.612546+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "10 official exchange holidays defined, regular trading 09:30-16:00 ET"
+  },
+  {
+    "name": "Timestamp Alignment Analysis",
+    "url": "Bitget Reality Ticker vs Yahoo Finance Unofficial vs Host UTC",
+    "tested_at": "2026-10-11T19:06:29.613892+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "Bitget age: 80.05s | Yahoo last close age: 47.11h (Weekend last_close)"
+  },
+  {
+    "name": "Yahoo Finance Quote (NVDA) [Unofficial Supplement]",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?interval=1d&range=5d",
+    "tested_at": "2026-10-11T19:06:29.661993+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"NVDA\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":917015400,\"regularMarketTime\":1791576000,\"hasPrePostMarketData\":true,\"gmtoffset\":-14400,\"timezone\":\"EDT\",\"exchangeTimezoneName\":\"America/New_Yor"
+  },
+  {
+    "name": "Yahoo Finance News (NVDA) [Unofficial Supplement]",
+    "url": "https://query2.finance.yahoo.com/v1/finance/search?q=NVDA&quotesCount=1&newsCount=5",
+    "tested_at": "2026-10-11T19:06:31.581211+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "Loaded 5 real market news articles from Yahoo search API"
+  },
+  {
+    "name": "SEC EDGAR Filings (NVDA CIK 0001045810) [Official Supplement]",
+    "url": "https://data.sec.gov/submissions/CIK0001045810.json",
+    "tested_at": "2026-10-11T19:06:40.710957+00:00",
+    "status_code": 200,
+    "pass": true,
+    "error": null,
+    "raw_response_snippet": "{\"cik\":\"0001045810\",\"entityType\":\"operating\",\"sic\":\"3674\",\"sicDescription\":\"Semiconductors & Related Devices\",\"ownerOrg\":\"04 Manufacturing\",\"insiderTransactionForOwnerExists\":1,\"insiderTransactionForIssuerExists\":1,\"name\":\"NVIDIA CORP\",\"tickers\":[\"NVDA\"],\"exchanges\":[\"Nasdaq\"],\"ein\":\"943177549\",\"lei"
+  }
+]

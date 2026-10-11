@@ -1,0 +1,6 @@
+{
+  "exchange": "NYSE & NASDAQ",
+  "regular_hours": "09:30 - 16:00 ET",
+  "trading_days": "Monday through Friday (excluding official federal holidays)",
+  "holidays_count": 10
+}

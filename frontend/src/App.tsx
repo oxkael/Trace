@@ -12,7 +12,8 @@ import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import type { AssessmentResponse, ProgressStep, OrderPreview, OptionItem, ScoreboardData } from './types/contract';
 import { MOCK_ASSESSMENT_NVDA, MOCK_SCOREBOARD } from './mock/data';
-import { askAssistant, getOrderPreview, confirmOrder } from './api/client';
+import { askAssistant, getOrderPreview, confirmOrder, fetchScoreboard } from './api/client';
+import { useEffect } from 'react';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<'assistant' | 'scoreboard' | 'how-it-works'>('assistant');
@@ -20,7 +21,24 @@ export const App: React.FC = () => {
   const [steps, setSteps] = useState<ProgressStep[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [orderModalData, setOrderModalData] = useState<OrderPreview | null>(null);
-  const [scoreboardData] = useState<ScoreboardData>(MOCK_SCOREBOARD);
+  const [scoreboardData, setScoreboardData] = useState<ScoreboardData>(MOCK_SCOREBOARD);
+
+  useEffect(() => {
+    fetchScoreboard().then((data) => {
+      if (data) setScoreboardData(data);
+    });
+
+    // Initial silent load of live verified data from backend
+    askAssistant('Check conditions and upcoming events for NVDA', {
+      onStep: () => {},
+      onResult: (result) => {
+        setAssessment(result);
+      },
+      onError: (err) => {
+        console.warn('Initial live assessment failed:', err);
+      }
+    });
+  }, []);
 
   const handleSearch = async (query: string) => {
     setIsStreaming(true);
@@ -59,12 +77,15 @@ export const App: React.FC = () => {
 
   const handleActionClick = async (option: OptionItem) => {
     if (option.kind === 'confirm_order') {
-      const preview = await getOrderPreview();
+      const ticker = option.params?.ticker || assessment?.request?.ticker || 'NVDA';
+      const amount = option.params?.amount_usd || 50;
+      const preview = await getOrderPreview(ticker, amount);
       setOrderModalData(preview);
     } else if (option.kind === 'ask_followup' && option.params?.message) {
       handleSearch(option.params.message);
     } else if (option.kind === 'adjust_amount') {
-      handleSearch('Run check with adjusted amount of $1,000 for rNVDA');
+      const ticker = assessment?.request?.ticker || 'NVDA';
+      handleSearch(`Check conditions with adjusted amount of $500 for r${ticker}`);
     }
   };
 

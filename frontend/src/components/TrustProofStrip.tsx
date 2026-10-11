@@ -2,13 +2,12 @@ import React from 'react';
 
 export const TrustProofStrip: React.FC = () => {
   const sources = [
-    { name: 'Bitget Reality', label: 'Tokenized Equities Engine' },
-    { name: 'NYSE', label: 'Session Calendars' },
-    { name: 'NASDAQ', label: 'Official Market Close' },
-    { name: 'SEC EDGAR', label: '10-Q / 10-K Filings' },
-    { name: 'Bloomberg', label: 'Consensus Target Range' },
-    { name: 'Zacks', label: 'Earnings Estimates' },
-    { name: 'Reuters', label: 'Verified Corporate News' }
+    { name: 'Bitget Reality', label: '24/7 Spot Tickers' },
+    { name: 'Bitget MCP', label: 'Stock Research & Targets' },
+    { name: 'NYSE Calendar', label: 'Official Market Sessions' },
+    { name: 'Yahoo Finance', label: 'Reference Quotes (Unofficial)' },
+    { name: 'SEC EDGAR', label: 'Corporate 10-Q/K Filings' },
+    { name: 'Google Gemini', label: 'Grounded Fact Synthesis' }
   ];
 
   return (

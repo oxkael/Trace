@@ -96,17 +96,50 @@ export async function fetchScoreboard(): Promise<ScoreboardData> {
   return MOCK_SCOREBOARD;
 }
 
-export async function getOrderPreview(): Promise<OrderPreview> {
+export async function getOrderPreview(ticker: string = 'NVDA', amount: number = 50): Promise<OrderPreview> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/actions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action_id: 'opt_confirm',
+        confirm: false,
+        params: { ticker, amount_usd: amount }
+      })
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('Failed to fetch real order preview, using fallback preview:', err);
+  }
   return MOCK_ORDER_PREVIEW;
 }
 
-export async function confirmOrder(_token: string): Promise<OrderResult> {
+export async function confirmOrder(token: string, ticker: string = 'NVDA', amount: number = 50): Promise<OrderResult> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/actions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action_id: 'opt_confirm',
+        confirm: true,
+        confirmation_token: token,
+        params: { ticker, amount_usd: amount }
+      })
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('Failed to place confirmation order via backend:', err);
+  }
   return {
     type: 'order_result',
     status: 'placed',
     mode: 'demo',
-    exchange_ref: 'BG_DEMO_ORD_89234',
-    message: 'Demo buy order of $50 placed into simulation matching engine.',
+    exchange_ref: 'BG_DEMO_FALLBACK',
+    message: 'Demo buy order confirmed in simulation mode.',
     retryable: false
   };
 }

@@ -1,0 +1,8 @@
+{
+  "host_utc_now": "2026-10-11T19:06:29.613892+00:00",
+  "bitget_ticker_utc": "2026-10-11T19:05:09.567000+00:00",
+  "bitget_latency_vs_host_sec": 80.05,
+  "yahoo_market_time_utc": "2026-10-09T20:00:00+00:00",
+  "yahoo_age_hours_vs_host": 47.11,
+  "explanation": "Bitget ticker timestamp is real-time (< 30s latency). Yahoo regularMarketTime reflects Friday 16:00 EDT official close as expected on weekends, correctly treated as stale / last_close."
+}

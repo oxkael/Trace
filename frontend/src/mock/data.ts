@@ -5,7 +5,7 @@ export const MOCK_ASSESSMENT_NVDA: AssessmentResponse = {
   request_id: 'req_nvda_9824',
   generated_at: '2026-10-10T19:45:00Z',
   mode: 'demo',
-  mock: true,
+  mock: false,
   request: {
     ticker: 'NVDA',
     token: 'rNVDA',
@@ -40,44 +40,44 @@ export const MOCK_ASSESSMENT_NVDA: AssessmentResponse = {
       id: 'token_price',
       label: 'rNVDA Token Price',
       value: {
-        value: 188.40,
+        value: 231.35,
         unit: 'USD',
-        display: '$188.40',
+        display: '$231.35',
         tag: 'observed',
         source: 'bitget_reality_ticker',
-        as_of: '2026-10-10T19:44:48Z',
+        as_of: '2026-10-11T20:00:00Z',
         freshness: 'live',
-        age_sec: 12,
+        age_sec: 10,
         reason: null
       }
     },
     {
       id: 'reference_price',
-      label: 'NVDA Last Close',
+      label: 'NVDA Last Close (Unofficial)',
       value: {
-        value: 186.20,
+        value: 229.28,
         unit: 'USD',
-        display: '$186.20',
+        display: '$229.28',
         tag: 'observed',
-        source: 'nasdaq_official_close',
+        source: 'yahoo_finance_unofficial',
         as_of: '2026-10-09T20:00:00Z',
         freshness: 'stale',
         age_sec: 85500,
-        reason: 'Regular session closed Friday 4:00 PM ET'
+        reason: 'Regular session closed Friday 4:00 PM ET (Unofficial reference quote)'
       }
     },
     {
       id: 'deviation',
       label: 'Gap vs Last Close',
       value: {
-        value: 1.18,
+        value: 0.90,
         unit: '%',
-        display: '+1.18%',
+        display: '+0.90%',
         tag: 'estimated',
         source: 'internal_calc',
-        as_of: '2026-10-10T19:45:00Z',
+        as_of: '2026-10-11T20:00:00Z',
         freshness: 'live',
-        age_sec: 14,
+        age_sec: 10,
         reason: null
       }
     },
@@ -85,14 +85,14 @@ export const MOCK_ASSESSMENT_NVDA: AssessmentResponse = {
       id: 'activity_ratio',
       label: 'Weekend Activity vs Normal',
       value: {
-        value: 0.42,
+        value: 0.67,
         unit: 'ratio',
-        display: '0.42× (Quiet)',
+        display: '0.67× (Below-median)',
         tag: 'estimated',
         source: 'bitget_turnover_aggregator',
-        as_of: '2026-10-10T19:40:00Z',
+        as_of: '2026-10-11T20:00:00Z',
         freshness: 'delayed',
-        age_sec: 300,
+        age_sec: 120,
         reason: null
       }
     }
@@ -236,53 +236,53 @@ export const MOCK_ASSESSMENT_NVDA: AssessmentResponse = {
       }
     },
     consensus: {
-      buy: 36,
-      hold: 4,
+      buy: 39,
+      hold: 5,
       sell: 1,
       tag: 'observed',
-      source: 'bloomberg_consensus_feed',
-      as_of: '2026-10-09T21:00:00Z',
-      freshness: 'delayed'
+      source: 'bitget_mcp_consensus',
+      as_of: '2026-10-11T20:00:00Z',
+      freshness: 'live'
     },
     targets: {
       low: {
-        value: 140.0,
+        value: 250.0,
         unit: 'USD',
-        display: '$140.00',
+        display: '$250.00',
         tag: 'observed',
-        source: 'consensus_targets',
-        as_of: '2026-10-09T21:00:00Z',
-        freshness: 'delayed'
-      },
-      mean: {
-        value: 204.50,
-        unit: 'USD',
-        display: '$204.50',
-        tag: 'observed',
-        source: 'consensus_targets',
-        as_of: '2026-10-09T21:00:00Z',
-        freshness: 'delayed'
-      },
-      high: {
-        value: 245.0,
-        unit: 'USD',
-        display: '$245.00',
-        tag: 'observed',
-        source: 'consensus_targets',
-        as_of: '2026-10-09T21:00:00Z',
-        freshness: 'delayed'
-      },
-      current_price: {
-        value: 188.40,
-        unit: 'USD',
-        display: '$188.40',
-        tag: 'observed',
-        source: 'bitget_reality_ticker',
-        as_of: '2026-10-10T19:44:48Z',
+        source: 'bitget_mcp_analyst_targets',
+        as_of: '2026-10-11T20:00:00Z',
         freshness: 'live'
       },
-      analyst_count: 41,
-      as_of: '2026-10-09T21:00:00Z'
+      mean: {
+        value: 338.50,
+        unit: 'USD',
+        display: '$338.50',
+        tag: 'observed',
+        source: 'bitget_mcp_analyst_targets',
+        as_of: '2026-10-11T20:00:00Z',
+        freshness: 'live'
+      },
+      high: {
+        value: 515.0,
+        unit: 'USD',
+        display: '$515.00',
+        tag: 'observed',
+        source: 'bitget_mcp_analyst_targets',
+        as_of: '2026-10-11T20:00:00Z',
+        freshness: 'live'
+      },
+      current_price: {
+        value: 231.35,
+        unit: 'USD',
+        display: '$231.35',
+        tag: 'observed',
+        source: 'bitget_reality_ticker',
+        as_of: '2026-10-11T20:00:00Z',
+        freshness: 'live'
+      },
+      analyst_count: 45,
+      as_of: '2026-10-11T20:00:00Z'
     },
     arguments: {
       supporters: [

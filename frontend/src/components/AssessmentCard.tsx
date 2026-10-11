@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import type { AssessmentResponse, OptionItem } from '../types/contract';
-import { VerdictBanner } from './VerdictBanner';
 import { KeyFactsGrid } from './KeyFactsGrid';
 import { EventBanner } from './EventBanner';
 import { LookbackTable } from './LookbackTable';
@@ -25,9 +24,9 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
 
   return (
     <MiddleSection className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10 sm:space-y-14 lg:space-y-16">
-      {/* 1. Verdict Banner with Scroll-Driven Float & Lift (Focused 880px reading width) */}
-      <RevealBlock delay={0} className="max-w-[880px] mx-auto">
-        <VerdictBanner verdict={data.verdict} />
+      {/* 1. AI Grounded Readout / Intent Synthesis (Brought to the top after user prompt) */}
+      <RevealBlock delay={0} className="max-w-[920px] mx-auto">
+        <ExplanationBox explanation={data.explanation} />
       </RevealBlock>
 
       {/* 2. Key Facts Grid with Scroll-Driven Float & Lift (Expansive 1140px data span) */}
@@ -110,10 +109,6 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         </RevealBlock>
       )}
 
-      {/* 6. AI Grounded Readout Box (Optimal 920px reading width) */}
-      <RevealBlock delay={0} className="max-w-[920px] mx-auto">
-        <ExplanationBox explanation={data.explanation} />
-      </RevealBlock>
 
       {/* 7. Action Bar Options (Focused 880px width) */}
       <RevealBlock delay={50} className="max-w-[880px] mx-auto">

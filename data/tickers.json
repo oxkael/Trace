@@ -1,0 +1,32 @@
+{
+  "supported_tickers": [
+    {
+      "symbol": "NVDA",
+      "token": "rNVDA",
+      "name": "NVIDIA Corporation",
+      "bitget_symbol": "RNVDAUSDT",
+      "description": "GPU, datacenter AI accelerators & autonomous systems"
+    },
+    {
+      "symbol": "TSLA",
+      "token": "rTSLA",
+      "name": "Tesla, Inc.",
+      "bitget_symbol": "RTSLAUSDT",
+      "description": "Electric vehicles, energy storage & autonomy"
+    },
+    {
+      "symbol": "AMD",
+      "token": "rAMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "bitget_symbol": "RAMDUSDT",
+      "description": "High-performance compute, graphics & datacenter chips"
+    },
+    {
+      "symbol": "AMZN",
+      "token": "rAMZN",
+      "name": "Amazon.com, Inc.",
+      "bitget_symbol": "RAMZNUSDT",
+      "description": "Cloud computing (AWS), e-commerce & AI infrastructure"
+    }
+  ]
+}

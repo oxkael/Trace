@@ -6,6 +6,7 @@ import { StreamingProgress } from './components/StreamingProgress';
 import { AssessmentCard } from './components/AssessmentCard';
 import { ScoreboardView } from './components/ScoreboardView';
 import { HowItWorksSection } from './components/HowItWorksSection';
+import { MethodologyCards } from './components/MethodologyCards';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
@@ -108,7 +109,10 @@ export const App: React.FC = () => {
               />
             )}
 
-            {/* nor.ma Screenshot 2: Numbered 3-Step Methodology Cards */}
+            {/* 3 nor.ma-style numbered Methodology Cards with generated UI photos */}
+            <MethodologyCards />
+
+            {/* nor.ma Cinematic Dark Dome Card: "Tokenized stocks trade 24/7. The stock market does not." */}
             <HowItWorksSection />
 
             {/* FAQ Accordion */}
@@ -125,6 +129,7 @@ export const App: React.FC = () => {
 
         {currentView === 'how-it-works' && (
           <div className="pt-28">
+            <MethodologyCards />
             <HowItWorksSection />
             <FaqSection />
           </div>

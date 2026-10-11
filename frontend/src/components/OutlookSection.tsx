@@ -32,8 +32,8 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
 
   return (
     <div className="space-y-10 sm:space-y-14 lg:space-y-16">
-      {/* 1. Full-Width Extending Rectangular Card: Wall Street Outlook & News Synthesis */}
-      <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+      {/* 1. Rectangular Card: Wall Street Outlook & News Synthesis (Optimal 920px reading width) */}
+      <div className="max-w-[920px] mx-auto p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
         <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
@@ -61,9 +61,9 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       </div>
 
-      {/* 2. Combined Card: Analyst Consensus (comes first) + 12-Month Published Price Targets */}
+      {/* 2. Combined Card: Analyst Consensus (comes first) + 12-Month Published Price Targets (Balanced 1040px) */}
       {(availability.consensus !== 'unavailable' || availability.targets !== 'unavailable') && (
-        <div className="p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="max-w-[1040px] mx-auto p-6 sm:p-8 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
           <div className="p-6 sm:p-8 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs space-y-7">
             {/* Part A: Analyst Consensus (comes first) */}
             {availability.consensus !== 'unavailable' && (
@@ -162,9 +162,9 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 3. Combined Single Card: Bull Arguments & Skeptic Arguments (No middle gap, filled with gray) */}
+      {/* 3. Combined Single Card: Bull Arguments & Skeptic Arguments (Expansive 1160px dual-column span) */}
       {availability.arguments !== 'unavailable' && (
-        <div className="p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="max-w-[1160px] mx-auto p-7 sm:p-9 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
             {/* Left Column: Key Bull Arguments */}
             <div>
@@ -231,9 +231,9 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 4. Earnings Expectations (EPS & Revenue) */}
+      {/* 4. Earnings Expectations (EPS & Revenue) (Balanced 960px width) */}
       {expectations && availability.expectations !== 'unavailable' && (
-        <div className="p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="max-w-[960px] mx-auto p-6 sm:p-7 rounded-[28px] sm:rounded-[36px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
           <div className="p-6 sm:p-7 rounded-[22px] sm:rounded-[26px] bg-white border border-black/[0.06] shadow-2xs">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-black/[0.08]">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-zinc-700">
@@ -279,9 +279,9 @@ export const OutlookSection: React.FC<OutlookSectionProps> = ({ outlook }) => {
         </div>
       )}
 
-      {/* 5. Reduced 30% Rectangular Card: Merged Timeline (First) then Recent Adjustments (Under it) */}
+      {/* 5. Reduced 30% Rectangular Card: Merged Timeline (First) then Recent Adjustments (Under it) (1040px width) */}
       {((recent_changes && recent_changes.length > 0) || (timeline && timeline.length > 0)) && (
-        <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[28px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
+        <div className="max-w-[1040px] mx-auto p-6 sm:p-8 rounded-[24px] sm:rounded-[28px] bg-[#E3E3E3] border border-black/[0.07] shadow-sm">
           <div className="space-y-6 sm:space-y-7">
             {/* Top: Merged Event & News Timeline (comes first with news listed) */}
             {timeline && timeline.length > 0 && (

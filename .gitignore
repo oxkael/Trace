@@ -1,0 +1,72 @@
+Dependencies
+
+node_modules/
+.venv/
+venv/
+env/
+pycache/
+*.py[cod]
+
+Environment variables and secrets
+
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+Python tooling
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+Frontend build output
+
+dist/
+build/
+.next/
+.nuxt/
+out/
+
+Logs and temporary files
+
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+Local databases and database artifacts
+
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+Editor and operating system files
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+Test and development artifacts
+
+coverage/
+playwright-report/
+test-results/
+
+Local runtime data
+
+data/local/
+artifacts/local/
+
+Keep dependency lockfiles, source code, documentation,
+
+tests, configuration, and intentional sample fixtures tracked.

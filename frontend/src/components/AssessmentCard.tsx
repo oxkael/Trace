@@ -24,26 +24,26 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
   const [activeTab, setActiveTab] = useState<'all' | 'outlook' | 'history'>('all');
 
   return (
-    <MiddleSection className="w-full max-w-[1040px] mx-auto px-4 py-12 sm:py-16 space-y-10 sm:space-y-14 lg:space-y-16">
-      {/* 1. Verdict Banner with Scroll-Driven Float & Lift */}
-      <RevealBlock delay={0}>
+    <MiddleSection className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10 sm:space-y-14 lg:space-y-16">
+      {/* 1. Verdict Banner with Scroll-Driven Float & Lift (Focused 880px reading width) */}
+      <RevealBlock delay={0} className="max-w-[880px] mx-auto">
         <VerdictBanner verdict={data.verdict} />
       </RevealBlock>
 
-      {/* 2. Key Facts Grid with Scroll-Driven Float & Lift */}
-      <RevealBlock delay={80}>
+      {/* 2. Key Facts Grid with Scroll-Driven Float & Lift (Expansive 1140px data span) */}
+      <RevealBlock delay={80} className="max-w-[1140px] mx-auto">
         <KeyFactsGrid facts={data.facts} />
       </RevealBlock>
 
-      {/* 3. Event Catalyst Banner if active */}
+      {/* 3. Event Catalyst Banner if active (Focused 880px width) */}
       {data.events && (data.events.banner || (data.events.upcoming && data.events.upcoming.length > 0)) && (
-        <RevealBlock delay={100}>
+        <RevealBlock delay={100} className="max-w-[880px] mx-auto">
           <EventBanner banner={data.events.banner} upcoming={data.events.upcoming} />
         </RevealBlock>
       )}
 
-      {/* 4. Section Selector Tabs with generous padding */}
-      <RevealBlock delay={120}>
+      {/* 4. Section Selector Tabs (Balanced 1040px anchor width) */}
+      <RevealBlock delay={120} className="max-w-[1040px] mx-auto">
         <div className="flex items-center gap-2.5 pt-4 pb-2 overflow-x-auto">
           <button
             type="button"
@@ -86,37 +86,37 @@ export const AssessmentCard: React.FC<AssessmentCardProps> = ({
         </div>
       </RevealBlock>
 
-      {/* 5. Deep Dive Sections with generous spacing & scroll reveals */}
+      {/* 5. Deep Dive Sections with varied rhythmic widths */}
       {activeTab === 'all' && (
         <div className="space-y-10 sm:space-y-14 lg:space-y-16">
-          <RevealBlock delay={0}>
+          <RevealBlock delay={0} className="max-w-[1160px] mx-auto">
             <LookbackTable history={data.history} />
           </RevealBlock>
-          <RevealBlock delay={50}>
+          <RevealBlock delay={50} className="w-full">
             <OutlookSection outlook={data.outlook} />
           </RevealBlock>
         </div>
       )}
 
       {activeTab === 'outlook' && (
-        <RevealBlock delay={0}>
+        <RevealBlock delay={0} className="w-full">
           <OutlookSection outlook={data.outlook} />
         </RevealBlock>
       )}
 
       {activeTab === 'history' && (
-        <RevealBlock delay={0}>
+        <RevealBlock delay={0} className="max-w-[1160px] mx-auto">
           <LookbackTable history={data.history} />
         </RevealBlock>
       )}
 
-      {/* 6. AI Grounded Readout Box */}
-      <RevealBlock delay={0}>
+      {/* 6. AI Grounded Readout Box (Optimal 920px reading width) */}
+      <RevealBlock delay={0} className="max-w-[920px] mx-auto">
         <ExplanationBox explanation={data.explanation} />
       </RevealBlock>
 
-      {/* 7. Action Bar Options */}
-      <RevealBlock delay={50}>
+      {/* 7. Action Bar Options (Focused 880px width) */}
+      <RevealBlock delay={50} className="max-w-[880px] mx-auto">
         <ActionBar
           options={data.options}
           onActionClick={onActionClick}

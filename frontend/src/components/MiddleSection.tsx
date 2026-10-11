@@ -16,27 +16,31 @@ export const RevealBlock: React.FC<RevealBlockProps> = ({
   children,
   delay = 0,
   className = '',
-  parallaxStrength = 0
+  parallaxStrength = 32
 }) => {
   const { ref, isVisible, progress } = useScrollReveal<HTMLDivElement>({
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.05,
+    rootMargin: '0px 0px -40px 0px',
+    triggerOnce: true
   });
 
-  // Calculate subtle scroll parallax float (e.g. slight lift as you scroll through)
-  const parallaxOffset = parallaxStrength ? (0.5 - progress) * parallaxStrength : 0;
+  // Calculate organic scroll float: as element moves through the viewport,
+  // it glides smoothly by up to parallaxStrength pixels.
+  // (0.5 - progress) gives +parallax/2 at bottom, 0 at center, -parallax/2 at top.
+  const parallaxOffset = isVisible ? (0.5 - progress) * parallaxStrength : 48;
 
   return (
     <div
       ref={ref}
       style={{
-        transitionDelay: `${delay}ms`,
-        transform: isVisible
-          ? `translate3d(0, ${parallaxOffset}px, 0)`
-          : 'translate3d(0, 36px, 0)',
-        opacity: isVisible ? 1 : 0
+        transitionDelay: isVisible ? `${delay}ms` : '0ms',
+        transform: `translate3d(0, ${parallaxOffset.toFixed(1)}px, 0) scale(${isVisible ? 1 : 0.985})`,
+        opacity: isVisible ? 1 : 0,
+        transitionProperty: 'opacity, transform',
+        transitionDuration: isVisible ? '650ms, 260ms' : '650ms, 650ms',
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
       }}
-      className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform will-change-opacity ${className}`}
+      className={`will-change-transform will-change-opacity ${className}`}
     >
       {children}
     </div>

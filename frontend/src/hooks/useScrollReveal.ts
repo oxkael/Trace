@@ -7,13 +7,13 @@ interface ScrollRevealOptions {
 }
 
 export function useScrollReveal<T extends HTMLElement = HTMLDivElement>({
-  threshold = 0.15,
-  rootMargin = '0px 0px -60px 0px',
+  threshold = 0.05,
+  rootMargin = '0px 0px -40px 0px',
   triggerOnce = true
 }: ScrollRevealOptions = {}) {
   const ref = useRef<T | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0.5);
 
   useEffect(() => {
     const element = ref.current;
@@ -36,16 +36,27 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>({
 
     observer.observe(element);
 
-    // Continuous scroll progress tracker for smooth parallax float
+    // Continuous scroll progress tracker with requestAnimationFrame for smooth parallax float
+    let ticking = false;
+
     const handleScroll = () => {
-      if (!element) return;
-      const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Calculate how far through the viewport the element is (0 = just entering bottom, 1 = leaving top)
-      const rawProgress = (windowHeight - rect.top) / (windowHeight + rect.height);
-      const clamped = Math.max(0, Math.min(1, rawProgress));
-      setProgress(clamped);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (!element) return;
+          const rect = element.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+
+          // Calculate how far through the viewport the element is (0 = entering bottom, 1 = leaving top)
+          const totalDistance = windowHeight + rect.height;
+          const currentDistance = windowHeight - rect.top;
+          const rawProgress = totalDistance > 0 ? currentDistance / totalDistance : 0.5;
+          const clamped = Math.max(0, Math.min(1, rawProgress));
+
+          setProgress(clamped);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
